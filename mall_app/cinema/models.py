@@ -1,4 +1,8 @@
+from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import models
+from django.http import Http404, JsonResponse
+from django.views import View
 
 from mall_app.users.models import UserProfile
 
@@ -40,10 +44,13 @@ class Schedule(models.Model):
 
 
 class HallSeat(models.Model):
+    User = get_user_model()
     hall = models.ForeignKey(CinemaHall, on_delete=models.CASCADE)
     row = models.PositiveIntegerField()
     column = models.PositiveIntegerField()
     taken = models.BooleanField(default=False)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    is_booked = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ['hall', 'row', 'column']
@@ -75,3 +82,5 @@ class Ticket(models.Model):
 
     def __str__(self):
         return f"Ticket {self.id} for {self.customer.user.email}"
+
+

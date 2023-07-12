@@ -1,0 +1,40 @@
+.seat-booking-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.seat-booking-form label {
+    width: 35px;  /* Adjust as needed */
+    height: 35px;  /* Adjust as needed */
+    border: 1px solid #000;
+    margin: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.seat-booking-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 624px;  /* Add this line */
+}
+/*.seat-booking-form label input {*/
+/*    display: none;*/
+/*}*/
+
+.seat-booking-form label::before {
+    content: attr(data-seat);  /* use data-seat attribute to display seat info */
+    font-size: 12px;  /* Adjust as needed */
+}
+
+/* You can use a pseudo class to style checked (booked) seats differently */
+.seat-booking-form label input:checked {
+    color: red;
+}
+
+/* You can use a pseudo class to style disabled (already booked) seats differently */
+.seat-booking-form label input:disabled {
+    color: gray;
+}

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Movie, CinemaHall, Schedule
+from .models import Movie, CinemaHall, Schedule, HallSeat, Ticket
 
 admin.site.register(Movie)
 admin.site.register(CinemaHall)
@@ -12,3 +12,14 @@ class MovieAdmin(admin.ModelAdmin):
 
 admin.site.unregister(Movie)  # unregister first to avoid a conflict
 admin.site.register(Movie, MovieAdmin)
+
+
+@admin.register(HallSeat)
+class HallSeatAdmin(admin.ModelAdmin):
+    list_display = ['id', 'row', 'column', 'user']
+    list_filter = ['user']
+
+@admin.register(Ticket)
+class TicketAdmin(admin.ModelAdmin):
+    list_display = ['id', 'customer', 'seat', 'screening']
+    list_filter = ['customer', 'screening']
