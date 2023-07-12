@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Parking</title>
+</head>
+<body>
+    {% if parked_car %}
+        <h2>Your car {{ parked_car.customer_car.license_plate }} is currently parked.</h2>
+        <p>Entrance Date: {{ parked_car.entrance_date }}</p>
+    {% else %}
+        <h2>No car is currently parked.</h2>
+    {% endif %}
+
+    <h2>Your registered cars:</h2>
+    {% for car in registered_cars %}
+        <div>
+            <h3>License Plate: {{ car.license_plate }}</h3>
+            <p>Car Type: {{ car.car_type }}</p>
+        </div>
+    {% empty %}
+        <p>You have not registered any cars.</p>
+    {% endfor %}
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Login & Registration Form</title>
+  <link rel="stylesheet" href="../static/form_css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="login form">
+      <header>Login</header>
+      <form method="post" action="{% url 'login_user' %}">
+    {% csrf_token %}
+    {{ login_form }}
+    <a href="#">Forgot password?</a>
+    <input type="submit" class="button" value="Login">
+</form>
+      <div class="signup">
+        <span class="signup">Don't have an account?
+            <a href="{% url 'register_user' %}" id="signup-label">Signup</a>
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

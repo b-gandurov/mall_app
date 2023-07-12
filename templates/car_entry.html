@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <title>Enter Parking</title>
+</head>
+<body>
+    <h1>Enter Parking</h1>
+<p>Free spots: {{ free_spots }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

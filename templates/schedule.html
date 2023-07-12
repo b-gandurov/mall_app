@@ -1,0 +1,7 @@
+{% for movie in movies %}
+    <h2>{{ movie.movie_name }}</h2>
+    {% for schedule in movie.schedule_set.all %}
+        <p>Show time: {{ schedule.show_time }}</p>
+        <p>Hall: {{ schedule.hall.hall_name }}</p>
+    {% endfor %}
+{% endfor %}

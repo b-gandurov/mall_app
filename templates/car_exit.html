@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exit Parking</title>
+</head>
+<body>
+    <h1>Exit Parking</h1>
+
+    {% if error_message %}
+    <p>{{ error_message }}</p>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <label for="license_plate">License Plate:</label>
+        <input type="text" id="license_plate" name="license_plate">
+        <button type="submit">Exit Parking</button>
+    </form>
+
+</body>
+</html>
