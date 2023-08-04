@@ -1,5 +1,24 @@
-<form method="post" action="{% url 'profile' %}">
-    {{ form.as_p }}
-    {% csrf_token %}
-    <button>Submit</button>
-</form>
+{% extends 'base.html' %}
+{% block content %}
+    <form method="post" action="{% url 'profile' %}">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <button>Submit</button>
+    </form>
+    <form method="post" action="{% url 'logout_user' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+{#    <form method="post" action="{% url 'delete_profile' %}">#}
+{#        {% csrf_token %}#}
+{#        <button type="submit">Delete</button>#}
+{#    </form>#}
+    <a href="{% url 'delete_profile' %}">Delete Profile</a> <!-- Add this line -->
+    <ul>
+    {% for reservation in reservations %}
+        <li>You reserved {{ reservation.item.name }} on {{ reservation.reservation_time }}</li>
+    {% empty %}
+        <li>You have no reservations.</li>
+    {% endfor %}
+    </ul>
+{% endblock %}

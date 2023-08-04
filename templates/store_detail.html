@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>{{ store.name }}</h1>
+    <p>{{ store.description }}</p>
+
+    <h2>Items</h2>
+    {% for item in items %}
+        <h3>{{ item.name }}</h3>
+        <p>{{ item.description }}</p>
+        {% if item.available_for_reservation %}
+            <a href="{% url 'reserve_item' item.id %}">Reserve this item</a>
+            <img src="{{ store.image.url }}" alt="{{ store.name }}">
+        {% else %}
+            <p>This item is currently reserved.</p>
+        {% endif %}
+    {% empty %}
+        <p>No items available in this store.</p>
+    {% endfor %}
+</body>
+</html>

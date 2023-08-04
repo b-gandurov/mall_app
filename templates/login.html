@@ -12,11 +12,11 @@
     <div class="login form">
       <header>Login</header>
       <form method="post" action="{% url 'login_user' %}">
-    {% csrf_token %}
-    {{ login_form }}
-    <a href="#">Forgot password?</a>
-    <input type="submit" class="button" value="Login">
-</form>
+            {% csrf_token %}
+            {{ login_form }}
+            <a href="#">Forgot password?</a>
+            <input type="submit" class="button" value="Login">
+      </form>
       <div class="signup">
         <span class="signup">Don't have an account?
             <a href="{% url 'register_user' %}" id="signup-label">Signup</a>
@@ -26,3 +26,38 @@
   </div>
 </body>
 </html>
+<!-- Modal -->
+{#<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">#}
+{#  <div class="modal-dialog" role="document">#}
+{#    <div class="modal-content">#}
+{#      <div class="modal-header">#}
+{#        <h5 class="modal-title" id="loginModalLabel">Login</h5>#}
+{#        <button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+{#          <span aria-hidden="true">&times;</span>#}
+{#        </button>#}
+{#      </div>#}
+{#      <div class="modal-body">#}
+{#  <div class="container">#}
+{#    <div class="login form">#}
+{#      <header>Login</header>#}
+{#      <form method="post" action="{% url 'login_user' %}">#}
+{#            {% csrf_token %}#}
+{#            {{ login_form }}#}
+{#            <a href="#">Forgot password?</a>#}
+{#            <input type="submit" class="button" value="Login">#}
+{#      </form>#}
+{#      <div class="signup">#}
+{#        <span class="signup">Don't have an account?#}
+{#            <a href="{% url 'register_user' %}" id="signup-label">Signup</a>#}
+{#        </span>#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
+{#      </div>#}
+{#      <div class="modal-footer">#}
+{#        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>#}
+{#        <button type="button" class="btn btn-primary">Save changes</button>#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
+{#</div>#}
