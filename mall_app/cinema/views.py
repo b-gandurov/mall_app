@@ -59,6 +59,21 @@ class CinemaScheduleView(ListView):
 
         return redirect('cinema_schedule')  # Or wherever you want to redirect after booking
 
+class UnbookSeatView(View):
+    def post(self, request, ticket_id):
+        ticket = get_object_or_404(Ticket, id=ticket_id, customer__user=request.user)
+
+        # Make the seat available again
+        seat = ticket.seat
+        seat.user = None
+        seat.save()
+
+        # Delete the ticket
+        ticket.delete()
+
+        messages.success(request, "Seat unbooked successfully.")
+        return redirect('profile')  # Redirect to the profile page or wherever you want
+
 # class CinemaView(View):
 #     template_name = 'cinema.html'
 #

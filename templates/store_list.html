@@ -1,10 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <meta name="viewport" content="width=device-width, initial-scale=1.0">#}
+{#    <title>Document</title>#}
+{#</head>#}
+{% extends 'base.html' %}
+{% block content %}
+
 <body>
         <h1>Stores</h1>
     {% for store in stores %}
@@ -15,4 +18,5 @@
         <p>No stores available.</p>
     {% endfor %}
 </body>
-</html>
+{% endblock %}
+{#</html>#}

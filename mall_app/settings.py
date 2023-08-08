@@ -129,6 +129,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.AppUser'
 
 LOGIN_REDIRECT_URL = 'index'
-
+# SESSION_COOKIE_AGE = 300
+# SESSION_SAVE_EVERY_REQUEST = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

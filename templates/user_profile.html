@@ -14,11 +14,239 @@
 {#        <button type="submit">Delete</button>#}
 {#    </form>#}
     <a href="{% url 'delete_profile' %}">Delete Profile</a> <!-- Add this line -->
-    <ul>
-    {% for reservation in reservations %}
-        <li>You reserved {{ reservation.item.name }} on {{ reservation.reservation_time }}</li>
-    {% empty %}
-        <li>You have no reservations.</li>
+{#    <ul>#}
+{#    {% for reservation in reservations %}#}
+{#        <li>You reserved {{ reservation.item.name }} on {{ reservation.reservation_time }}</li>#}
+{#    {% empty %}#}
+{#        <li>You have no reservations.</li>#}
+{#    {% endfor %}#}
+{#    </ul>#}
+{#{% for reservation in reservations %}#}
+{#    <li>#}
+{#        You reserved {{ reservation.item.name }} on {{ reservation.reservation_time }}#}
+{#        <span id="timer-{{ reservation.id }}"></span>#}
+{#    </li>#}
+{#{% endfor %}#}
+{##}
+{#<script>#}
+{#    function startTimer(reservationId, reservationTime) {#}
+{#        var countdownDate = new Date(reservationTime).getTime() + 5 * 60 * 1000;#}
+{#        var x = setInterval(function() {#}
+{#            var now = new Date().getTime();#}
+{#            var distance = countdownDate - now;#}
+{#            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));#}
+{#            var seconds = Math.floor((distance % (1000 * 60)) / 1000);#}
+{#            document.getElementById("timer-" + reservationId).innerHTML = minutes + "m " + seconds + "s ";#}
+{##}
+{#            if (distance < 0) {#}
+{#                clearInterval(x);#}
+{#                document.getElementById("timer-" + reservationId).innerHTML = "EXPIRED";#}
+{#                // You could add an AJAX call here to notify the server that the reservation has expired.#}
+{#            }#}
+{#        }, 1000);#}
+{#    }#}
+{##}
+{#    {% for reservation in reservations %}#}
+{#        startTimer("{{ reservation.id }}", "{{ reservation.reservation_time|date:'c' }}");#}
+{#    {% endfor %}#}
+{#</script>#}
+
+{#    {% for reservation in reservations %}#}
+{#    <li>#}
+{#        You reserved {{ reservation.item.name }} on {{ reservation.reservation_time }}#}
+{#        <span id="timer-{{ reservation.id }}"></span> <!-- Use reservation.id instead of forloop.counter -->#}
+{#    </li>#}
+{#{% endfor %}#}
+{##}
+{#    <script>#}
+{#    {% for reservation in reservations %}#}
+{#        var countdownDate = new Date("{{ reservation.reservation_time|date:'c' }}").getTime() + 5 * 60 * 1000;#}
+{#        var x = setInterval(function() {#}
+{#            var now = new Date().getTime();#}
+{#            var distance = countdownDate - now;#}
+{#            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));#}
+{#            var seconds = Math.floor((distance % (1000 * 60)) / 1000);#}
+{#            document.getElementById("timer-{{ reservation.id }}").innerHTML = minutes + "m " + seconds + "s "; <!-- Use reservation.id here too -->#}
+{##}
+{#            if (distance < 0) {#}
+{#                clearInterval(x);#}
+{#                document.getElementById("timer-{{ reservation.id }}").innerHTML = "EXPIRED"; <!-- And here -->#}
+{#                // You could add an AJAX call here to notify the server that the reservation has expired.#}
+{#            }#}
+{#        }, 1000);#}
+{#    {% endfor %}#}
+{#</script>#}
+
+{#    <h3>Claimed Reservations</h3>#}
+{#{% for reservation in claimed_reservations %}#}
+{#    <li>#}
+{#        You reserved {{ reservation.item.name }} on {{ reservation.reservation_time }}#}
+{#        <span>CLAIMED</span>#}
+{#    </li>#}
+{#{% endfor %}#}
+{#    <div class="pagination">#}
+{#    <span class="step-links">#}
+{#        {% if claimed_reservations.has_previous %}#}
+{#            <a href="?page_claimed=1">&laquo; first</a>#}
+{#            <a href="?page_claimed={{ claimed_reservations.previous_page_number }}">previous</a>#}
+{#        {% endif %}#}
+{##}
+{#        <span class="current">#}
+{#            Page {{ claimed_reservations.number }} of {{ claimed_reservations.paginator.num_pages }}.#}
+{#        </span>#}
+{##}
+{#        {% if claimed_reservations.has_next %}#}
+{#            <a href="?page_claimed={{ claimed_reservations.next_page_number }}">next</a>#}
+{#            <a href="?page_claimed={{ claimed_reservations.paginator.num_pages }}">last &raquo;</a>#}
+{#        {% endif %}#}
+{#    </span>#}
+{#</div>#}
+{##}
+{##}
+{#<h3>Unclaimed Reservations</h3>#}
+{#{% for reservation in unclaimed_reservations %}#}
+{#    <li>#}
+{#        You reserved {{ reservation.item.name }} on {{ reservation.reservation_time }}#}
+{#        <span id="timer-{{ reservation.id }}"></span>#}
+{#    </li>#}
+{#{% endfor %}#}
+{#<div class="pagination">#}
+{#    <span class="step-links">#}
+{#        {% if unclaimed_reservations.has_previous %}#}
+{#            <a href="?page_unclaimed=1">&laquo; first</a>#}
+{#            <a href="?page_unclaimed={{ unclaimed_reservations.previous_page_number }}">previous</a>#}
+{#        {% endif %}#}
+{##}
+{#        <span class="current">#}
+{#            Page {{ unclaimed_reservations.number }} of {{ unclaimed_reservations.paginator.num_pages }}.#}
+{#        </span>#}
+{##}
+{#        {% if unclaimed_reservations.has_next %}#}
+{#            <a href="?page_unclaimed={{ unclaimed_reservations.next_page_number }}">next</a>#}
+{#            <a href="?page_unclaimed={{ unclaimed_reservations.paginator.num_pages }}">last &raquo;</a>#}
+{#        {% endif %}#}
+{#    </span>#}
+{#</div>#}
+<h3>Claimed Reservations</h3>
+{% for reservation in claimed_reservations %}
+    <li>
+        You reserved {{ reservation.item.name }} on {{ reservation.reservation_time }}
+        <span>CLAIMED</span>
+    </li>
+{% endfor %}
+<div class="pagination">
+    <span class="step-links">
+        {% if claimed_reservations.has_previous %}
+            <a href="?page_claimed=1&page_unclaimed={{ unclaimed_reservations.number }}">&laquo; first</a>
+            <a href="?page_claimed={{ claimed_reservations.previous_page_number }}&page_unclaimed={{ unclaimed_reservations.number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ claimed_reservations.number }} of {{ claimed_reservations.paginator.num_pages }}.
+        </span>
+
+        {% if claimed_reservations.has_next %}
+            <a href="?page_claimed={{ claimed_reservations.next_page_number }}&page_unclaimed={{ unclaimed_reservations.number }}">next</a>
+            <a href="?page_claimed={{ claimed_reservations.paginator.num_pages }}&page_unclaimed={{ unclaimed_reservations.number }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+<h3>Unclaimed Reservations</h3>
+{% for reservation in unclaimed_reservations %}
+    <li>
+        You reserved {{ reservation.item.name }} on {{ reservation.reservation_time }}
+        <span id="timer-{{ reservation.id }}"></span>
+    </li>
+{% endfor %}
+<div class="pagination">
+    <span class="step-links">
+        {% if unclaimed_reservations.has_previous %}
+            <a href="?page_claimed={{ claimed_reservations.number }}&page_unclaimed=1">&laquo; first</a>
+            <a href="?page_claimed={{ claimed_reservations.number }}&page_unclaimed={{ unclaimed_reservations.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ unclaimed_reservations.number }} of {{ unclaimed_reservations.paginator.num_pages }}.
+        </span>
+
+        {% if unclaimed_reservations.has_next %}
+            <a href="?page_claimed={{ claimed_reservations.number }}&page_unclaimed={{ unclaimed_reservations.next_page_number }}">next</a>
+            <a href="?page_claimed={{ claimed_reservations.number }}&page_unclaimed={{ unclaimed_reservations.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+    <h3>Your Booked Seats</h3>
+<ul>
+{% for ticket in booked_tickets %}
+    <li>
+        Movie: {{ ticket.screening.movie.movie_name }} -
+        Time: {{ ticket.screening.show_time }} -
+        Hall: {{ ticket.screening.hall.hall_name }} -
+        Seat: Row Number {{ ticket.seat.row }}, Seat Number {{ ticket.seat.column }}
+<form action="{% url 'unbook_seat' ticket.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Unbook Seat</button>
+        </form>
+    </li>
+{% endfor %}
+<span class="timer" data-start-time="{{ ticket.screening.show_time|date:"U" }}"></span>
+</ul>
+
+
+<script>
+    function startTimer(reservationId, reservationTime) {
+        var countdownDate = new Date(reservationTime).getTime() + 5 * 60 * 1000;
+        var x = setInterval(function() {
+            var now = new Date().getTime();
+            var distance = countdownDate - now;
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            document.getElementById("timer-" + reservationId).innerHTML = minutes + "m " + seconds + "s ";
+
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("timer-" + reservationId).innerHTML = "UNCLAIMED";
+            }
+        }, 1000);
+    }
+
+    {% for reservation in unclaimed_reservations %}
+        startTimer("{{ reservation.id }}", "{{ reservation.reservation_time|date:'c' }}");
     {% endfor %}
-    </ul>
+function updateTimers() {
+    // Get all the elements with class timer
+    var timers = document.getElementsByClassName('timer');
+
+    // Loop through each timer element
+    for (var i = 0; i < timers.length; i++) {
+        // Get the start time for this timer
+        var startTime = new Date(parseInt(timers[i].dataset.startTime) * 1000);
+
+        // Calculate the time remaining
+        var now = new Date();
+        var timeRemaining = startTime - now;
+
+        // Check if the time remaining is positive
+        if (timeRemaining > 0) {
+            // Calculate hours, minutes, and seconds
+            var hours = Math.floor(timeRemaining / (1000 * 60 * 60));
+            var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+            // Update the display
+            timers[i].innerText = hours + "h " + minutes + "m " + seconds + "s remaining";
+        } else {
+            // If the time remaining is not positive, the movie has started
+            timers[i].innerText = "Movie has started";
+        }
+    }
+}
+
+// Update the timers every second
+setInterval(updateTimers, 1000);
+</script>
+
+
+
 {% endblock %}

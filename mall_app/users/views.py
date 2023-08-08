@@ -1,18 +1,37 @@
+from datetime import datetime, timedelta
+
 from django.contrib.auth import views as auth_views, login, get_user_model
 from django.contrib.auth import forms as auth_forms
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.http import HttpResponseNotAllowed
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views import generic as views
 
 from django.shortcuts import redirect
 from django.views.generic import DeleteView
 
+from mall_app.cinema.models import Ticket
+from mall_app.stores.models import Reservation
 from mall_app.users.forms import UserProfileForm
 from mall_app.users.models import UserProfile
 
+
+def sort_reservations_by_remaining_time(reservations):
+    # Get the current time
+    now = timezone.now()
+
+    # Add a computed property to each reservation representing the remaining time
+    for reservation in reservations:
+        reservation.remaining_time = (reservation.reservation_time + timedelta(minutes=5)) - now
+
+    # Sort the reservations by the remaining time
+    sorted_reservations = sorted(reservations, key=lambda r: (r.remaining_time < timedelta(0), r.remaining_time))
+
+    return sorted_reservations
 
 def anonymous_required(view_func):
     def _wrapped_view_func(request, *args, **kwargs):
@@ -67,6 +86,9 @@ class LoginUserView(auth_views.LoginView):
         return context
 
 
+
+
+
 # class UserProfileView(views.UpdateView):
 #     model = UserProfile
 #     form_class = UserProfileForm
@@ -86,6 +108,34 @@ class UserProfileView(views.UpdateView):
     form_class = UserProfileForm
     template_name = 'user_profile.html'
     success_url = reverse_lazy('index')
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     reservations = Reservation.objects.filter(user=self.request.user)
+    #     sorted_reservations = sort_reservations_by_remaining_time(reservations)
+    #     context['reservations'] = sorted_reservations
+    #     # context['reservations'] = Reservation.objects.filter(user=self.request.user)
+    #     return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        claimed_reservations = Reservation.objects.filter(user=self.request.user, is_claimed=True)
+        unclaimed_reservations = Reservation.objects.filter(user=self.request.user, is_claimed=False)
+        sorted_unclaimed_reservations = sort_reservations_by_remaining_time(unclaimed_reservations)
+        # Create a Paginator object
+        paginator = Paginator(sorted_unclaimed_reservations, 3)  # 3 items per page
+        page_unclaimed = self.request.GET.get('page_unclaimed', 1)  # Get the page number from the request
+        unclaimed_reservations_page = paginator.get_page(page_unclaimed)
+
+        paginator_claimed = Paginator(claimed_reservations, 3)
+        page_claimed = self.request.GET.get('page_claimed', 1)
+        claimed_reservations_page = paginator_claimed.get_page(page_claimed)
+
+        user_profile = UserProfile.objects.get(user=self.request.user)
+
+        context['booked_tickets'] = Ticket.objects.filter(customer=user_profile).select_related('seat', 'screening')
+        context['claimed_reservations'] = claimed_reservations_page
+        context['unclaimed_reservations'] = unclaimed_reservations_page
+        return context
 
     def get_initial(self):
         # Get the initial dictionary from the superclass method

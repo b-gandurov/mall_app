@@ -2,6 +2,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    max-width: 624px;  /* Adjust as needed */
 }
 
 .seat-booking-form label {
@@ -13,28 +14,22 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    background-color: green; /* default background color */
 }
-.seat-booking-form {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    max-width: 624px;  /* Add this line */
-}
-/*.seat-booking-form label input {*/
-/*    display: none;*/
-/*}*/
 
 .seat-booking-form label::before {
     content: attr(data-seat);  /* use data-seat attribute to display seat info */
     font-size: 12px;  /* Adjust as needed */
 }
 
-/* You can use a pseudo class to style checked (booked) seats differently */
-.seat-booking-form label input:checked {
-    color: red;
+/* Style for checked seats */
+.seat-booking-form label input:checked + ::before {
+    color: white; /* Change text color if needed */
+    background-color: red; /* Change background color */
 }
 
-/* You can use a pseudo class to style disabled (already booked) seats differently */
-.seat-booking-form label input:disabled {
-    color: gray;
+/* Style for disabled (already booked) seats */
+.seat-booking-form label input:disabled + ::before {
+    color: white; /* Change text color if needed */
+    background-color: grey; /* Change background color */
 }
