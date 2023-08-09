@@ -4,7 +4,7 @@ from django.contrib.auth import views as auth_views, login, get_user_model
 from django.contrib.auth import forms as auth_forms
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
-from django.http import HttpResponseNotAllowed
+from django.http import HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -18,7 +18,7 @@ from mall_app.cinema.models import Ticket
 from mall_app.stores.models import Reservation
 from mall_app.users.forms import UserProfileForm
 from mall_app.users.models import UserProfile
-
+from django.contrib.auth.forms import PasswordResetForm
 
 def sort_reservations_by_remaining_time(reservations):
     # Get the current time
@@ -168,3 +168,32 @@ class UserProfileDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_object(self):
         return self.request.user
+
+
+class CustomPasswordResetForm(PasswordResetForm):
+    def get_users(self, email):
+        """Return matching user objects for the given email."""
+        email_field_name = get_user_model().EMAIL_FIELD
+        for user in get_user_model()._default_manager.filter(**{
+                '%s__iexact' % email_field_name: email}):
+            if user.has_usable_password() and user.email_user:
+                yield user
+        else: # Add this line
+            self.add_error(None, "Email is not registered") # And this line
+
+
+def increase_item_quantity(request):
+    reservation_id = request.GET.get('reservation_id')
+    reservation = Reservation.objects.get(id=reservation_id)
+
+    # Check whether the item's quantity has already been increased
+    if not reservation.item_quantity_increased:
+        item = reservation.item
+        item.quantity += 1
+        item.save()
+        # Set the flag to True to indicate that the item's quantity has been increased
+        reservation.item_quantity_increased = True
+        reservation.save()
+        return JsonResponse({'status': 'success'})
+    else:
+        return JsonResponse({'status': 'already_increased'})

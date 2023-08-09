@@ -29,6 +29,7 @@ class Item(models.Model):
     category = models.ForeignKey(Category, related_name='items', on_delete=models.SET_NULL, null=True)
     image = models.ImageField(upload_to='items/', null=True, blank=True)
     quantity = models.PositiveIntegerField(default=1)
+    reservation_timer = models.PositiveIntegerField(default=5, help_text="Reservation time in minutes")
 
     def __str__(self):
         return self.name
@@ -39,6 +40,7 @@ class Reservation(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='reservations')
     reservation_time = models.DateTimeField(auto_now_add=True)
     is_claimed = models.BooleanField(default=False)
+    item_quantity_increased = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.user.email} reserved {self.item.name}'
