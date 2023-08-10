@@ -12,7 +12,7 @@ from django.views import generic as views
 from django.shortcuts import redirect
 from django.views.generic import DeleteView
 from mall_app.cinema.models import Ticket
-from mall_app.stores.models import Reservation
+from mall_app.stores.models import Reservation, Store
 from mall_app.users.forms import UserProfileForm, RegisterUserForm
 from mall_app.users.models import UserProfile
 
@@ -38,7 +38,8 @@ UserModel = get_user_model()
 
 
 def index(request):
-    return render(request, 'index.html')
+    stores = Store.objects.all()
+    return render(request, 'index.html', {'stores': stores})
 
 
 class RegisterUserView(views.CreateView):
