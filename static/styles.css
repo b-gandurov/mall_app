@@ -43,9 +43,9 @@ main {
   padding: 20px;
 }
 
-section {
-  margin-bottom: 30px;
-}
+/*section {*/
+/*  margin-bottom: 30px;*/
+/*}*/
 
 .carousel {
   display: flex;

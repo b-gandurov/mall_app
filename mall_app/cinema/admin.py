@@ -5,12 +5,12 @@ admin.site.register(Movie)
 admin.site.register(CinemaHall)
 class ScheduleInline(admin.TabularInline):
     model = Schedule
-    extra = 1  # number of extra forms to display
+    extra = 1
 
 class MovieAdmin(admin.ModelAdmin):
     inlines = [ScheduleInline]
 
-admin.site.unregister(Movie)  # unregister first to avoid a conflict
+admin.site.unregister(Movie)
 admin.site.register(Movie, MovieAdmin)
 
 

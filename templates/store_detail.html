@@ -1,12 +1,22 @@
-
 {% extends 'base.html' %}
-{% load static %}
 {% block content %}
+{% load custom_filters %}
+{% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'stores/store_details.css' %}">
 
-    <h1>{{ store.name }}</h1>
-    <p>{{ store.description }}</p>
+    <div class="store-details">
+        <div class="store-overview">
+            <span class="store-title">{{ store.name }}</span>
+            <img src="{{ store.image.url }}">
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-16 col-12"></div>
 
-    <h2>Items</h2>
+            </div>
+        </div>
+    </div>
+
     {% for item in items %}
         <h3>{{ item.name }}</h3>
         <p>{{ item.description }}</p>

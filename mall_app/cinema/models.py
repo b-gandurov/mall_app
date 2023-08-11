@@ -60,15 +60,15 @@ class HallSeat(models.Model):
 
 
 def create_hall_seats(hall):
-    # Clear any existing seats for this hall
+
     HallSeat.objects.filter(hall=hall).delete()
 
-    # The number of columns is constant (16), calculate the number of rows
+
     number_of_rows = hall.capacity // 16
 
-    # Create the seats
+
     for row in range(1, number_of_rows + 1):
-        for column in range(1, 17):  # Columns from 1 to 16
+        for column in range(1, 17):
             HallSeat.objects.create(hall=hall, row=row, column=column)
 
 

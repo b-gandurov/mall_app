@@ -89,7 +89,7 @@ class UserProfileView(LoginRequiredMixin, views.UpdateView):
             user.save()
             user.refresh_from_db()
             update_session_auth_hash(self.request, user)
-            messages.success(self.request, 'Your password was changed successfully.')  # This line
+            messages.success(self.request, 'Your password was changed successfully.')
 
         return response
 
@@ -115,7 +115,6 @@ class UserProfileView(LoginRequiredMixin, views.UpdateView):
         return context
 
     def get_initial(self):
-
         initial = super(UserProfileView, self).get_initial()
         user_profile = self.get_object()
         initial['first_name'] = user_profile.first_name
@@ -148,7 +147,6 @@ class UserProfileDeleteView(LoginRequiredMixin, DeleteView):
 def increase_item_quantity(request):
     reservation_id = request.GET.get('reservation_id')
     reservation = Reservation.objects.get(id=reservation_id)
-
 
     if not reservation.item_quantity_increased:
         item = reservation.item

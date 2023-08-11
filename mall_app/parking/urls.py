@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 
 from mall_app.parking.views import ParkingView, RegisterCarView, CarEntryView, CarExitView, DeleteCarView
 

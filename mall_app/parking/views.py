@@ -37,10 +37,13 @@ class ParkingView(generic.TemplateView):
                         context['error_message'] = 'This car is registered to another user.'
                     else:
                         entry_time = parking_instance.entrance_date
+                        amount_to_pay = parking_instance.amount_to_pay()
+                        formatted_entry_time = entry_time.strftime("%H:%M:%S / %d-%m-%Y")
                         time_parked = timezone.now() - entry_time
                         hours_parked = time_parked.total_seconds() // 3600
                         context[
-                            'parking_message'] = f'The car has been parked for {hours_parked} hours (since {entry_time}).'
+                            'parking_message'] = f'This car has been parked for {hours_parked} hours (since {formatted_entry_time})' \
+                                                 f'\nThe total parking cost for this car is: {amount_to_pay}.'
                 else:
                     context['error_message'] = 'Invalid license plate.'
 
@@ -85,17 +88,14 @@ class CarEntryView(FormView):
 
     def form_valid(self, form):
         license_plate = form.cleaned_data['license_plate']
-        # Check if the car is already parked.
         if Parking.objects.filter(customer_car__license_plate=license_plate, exit_date__isnull=True).exists():
             form.add_error(None, 'This car is already parked.')
             return self.form_invalid(form)
 
-        # Check if there's available parking space.
         if Parking.objects.filter(exit_date__isnull=True).count() >= 400:
             form.add_error(None, 'Parking lot is full.')
             return self.form_invalid(form)
 
-        # If the car is registered, link it.
         try:
             car = CustomerCar.objects.get(license_plate=license_plate)
             welcome_message = f"Welcome {car.customer.user.get_username()}!"
@@ -124,18 +124,14 @@ class CarExitView(View):
         parking_instance = Parking.objects.filter(license_plate=license_plate, exit_date__isnull=True).first()
 
         if parking_instance:
-            # Calculate fee
             parking_rate = ParkingRate.objects.first()
             total_hours = (timezone.now() - parking_instance.entry_date).total_seconds() / 3600
             payable_hours = max(total_hours - parking_rate.free_hours, 0)
             fee = payable_hours * parking_rate.hourly_rate
-
-            # Optionally, store the fee
             parking_instance.fee = fee
             parking_instance.exit_date = timezone.now()
             parking_instance.save()
 
-        # If no matching car is found in the parking lot, return an error message.
         context = {
             'error_message': f"No car with license plate {license_plate} is currently parked."
         }

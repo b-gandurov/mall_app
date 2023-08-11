@@ -1,0 +1,30 @@
+.store-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.store-list-item {
+    border-radius: 10px;
+    width: 350px;
+    margin: 5px;
+    padding: 10px;
+    text-align: center;
+    align-items: center;
+}
+
+.store-list-item:hover {
+    background: #DDDDDD;
+}
+
+.store-list-item a {
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.store-list-item a img {
+    width: 200px;
+    height: 200px;
+}
