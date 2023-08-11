@@ -2,3 +2,6 @@ db.sqlite3
 .idea
 .vscode
 tmp
+**/__pycache__/**
+Scripts
+venv
