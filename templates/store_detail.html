@@ -6,29 +6,41 @@
 
     <div class="store-details">
         <div class="store-overview">
-            <span class="store-title">{{ store.name }}</span>
+
             <img src="{{ store.image.url }}">
         </div>
         <div class="container">
-            <div class="row">
-                <div class="col-16 col-12"></div>
 
+            <div class="row">
+                <div class="col-6 col-12-medium col-12-small">{{ store.description }}</div>
+                <div class="col-6 col-12-medium col-12-small">
+{#                    <ul>#}
+{#                        <li>AAAAAA</li>#}
+{#                        <li>AAAAAA</li>#}
+{#                        <li>AAAAAA</li>#}
+{#                        <li>AAAAAA</li>#}
+{#                    </ul>#}
+                </div>
             </div>
         </div>
+
+        <div class="store-items">
+            {% for item in items %}
+                <div class="store-item">
+                    <img src="{{ item.image.url }}" /><br>
+                    <div class="store-item-description">
+                        <span>{{ item.name }}</span><br>
+                        {% if item.quantity %}
+                            <span>In Stock: {{ item.quantity }}</span><br>
+                            <a href="{% url 'reserve_item' item.id %}">Reserve this item</a>
+                        {% else %}
+                            <p>This item is out of stock.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% empty %}
+                <p>No items available in this store</p>
+            {% endfor %}
+        </div>
     </div>
-
-    {% for item in items %}
-        <h3>{{ item.name }}</h3>
-        <p>{{ item.description }}</p>
-        <img src="{{ item.image.url }}" alt="{{ item.name }}">
-        {% if item.quantity %}
-            <a href="{% url 'reserve_item' item.id %}">Reserve this item</a>
-            <img src="{{ store.image.url }}" alt="{{ store.name }}">
-        {% else %}
-            <p>This item is out of stock.</p>
-        {% endif %}
-    {% empty %}
-        <p>No items available in this store.</p>
-    {% endfor %}
-
 {% endblock %}

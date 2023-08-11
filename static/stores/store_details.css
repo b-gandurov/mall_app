@@ -21,3 +21,28 @@
     width: 300px;
     margin: 15px auto;
 }
+.store-title {
+    display: none;
+}
+.store-items {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 10px;
+}
+
+.store-item {
+    border: 1px solid gray;
+    border-radius: 7px;
+    background-color: #EEEEEE;
+}
+
+.store-item-description {
+    padding: 0px 10px 10px 10px;
+}
+
+.store-item img {
+    width: 250px;
+    margin: 0 auto;
+}

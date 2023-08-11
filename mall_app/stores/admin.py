@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Store, Item, Reservation, Category, ItemCategory, StoreCategory
+from .models import Store, Item, Reservation, ItemCategory, StoreCategory
 
 
 def mark_as_claimed(modeladmin, request, queryset):

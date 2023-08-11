@@ -1,31 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Login & Registration Form</title>
-  <link rel="stylesheet" href="../static/form_css/styles.css">
-</head>
-<body>
-  <div class="container">
-    <div class="login form">
-      <header>Login</header>
-      <form method="post" action="{% url 'login_user' %}">
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'auth/auth.css' %}">
+    <br>
+    <div class="auth-form">
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form method="post" action="{% url 'login_user' %}">
+            {% for field in form %}
+                <div class="fieldWrapper">
+                    {{ field.errors }}
+                    {{ field.label_tag }} {{ field }}
+                </div>
+            {% endfor %}
             {% csrf_token %}
-            {{ login_form }}
-            <a href="{% url 'password_reset' %}">Forgot password?</a>
-            <input type="submit" class="button" value="Login">
-      </form>
-      <div class="signup">
+            <input type="submit" class="button submit-btn" value="Login"><br>
+        </form>
+        <div class="signup">
         <span class="signup">Don't have an account?
             <a href="{% url 'register_user' %}" id="signup-label">Signup</a>
-        </span>
-      </div>
+        </span><br>
+            <a href="{% url 'password_reset' %}">Forgot password?</a>
+        </div>
     </div>
-  </div>
-</body>
-</html>
+    </div>
+{% endblock %}
 <!-- Modal -->
 {#<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">#}
 {#  <div class="modal-dialog" role="document">#}

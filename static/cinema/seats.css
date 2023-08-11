@@ -24,7 +24,7 @@
     display: none;
     flex-wrap: wrap;
     justify-content: space-between;
-    max-width: 624px;  /* Adjust as needed */
+    max-width: 624px;
 }
 
 .seat-booking-form.active {
@@ -32,26 +32,26 @@
 }
 
 .seat-booking-form label {
-    width: 35px;  /* Adjust as needed */
-    height: 35px;  /* Adjust as needed */
+    width: 50px;
+    height: 35px;
     border: 1px solid #000;
     margin: 2px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    background-color: green; /* default background color */
+    background-color: green;
 }
 
 .seat-booking-form label::before {
-    content: attr(data-seat);  /* use data-seat attribute to display seat info */
-    font-size: 12px;  /* Adjust as needed */
+    content: attr(data-seat);
+    font-size: 12px;
 }
 
-/* Style for checked seats */
+
 .seat-booking-form label input:checked + ::before {
-    color: white; /* Change text color if needed */
-    background-color: red; /* Change background color */
+    color: white;
+    background-color: red;
 }
 
 /* Style for disabled (already booked) seats */

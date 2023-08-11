@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-5=!her10r7ke$%%+w(ptm#ma(_ebm_w8+m@y4p5264sc&^#6=-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
 
 # Application definition
 
@@ -80,13 +80,38 @@ WSGI_APPLICATION = 'mall_app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if DEBUG:
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.sqlite3',
+    #         'NAME': BASE_DIR / 'db.sqlite3',
+    #     }
+    # }
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": "mall_db",
+            "USER": "adminuser542",
+            "PASSWORD": "Hhjypb8rKIUZMSd",
+            "HOST": "127.0.0.1",
+            "PORT": "5432",
+        }
     }
-}
-
+    ALLOWED_HOSTS = []
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": "mall_db",
+            "USER": "adminuser542",
+            "PASSWORD": "Hhjypb8rKIUZMSd",
+            "HOST": "127.0.0.1",
+            "PORT": "5432",
+        }
+    }
+    ALLOWED_HOSTS = ['127.0.0.1']
+    SESSION_COOKIE_AGE = 300
+    SESSION_SAVE_EVERY_REQUEST = True
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -124,6 +149,9 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = (
     BASE_DIR / 'static',
 )
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -133,10 +161,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.AppUser'
 
 LOGIN_REDIRECT_URL = 'index'
-# SESSION_COOKIE_AGE = 300
-# SESSION_SAVE_EVERY_REQUEST = True
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 

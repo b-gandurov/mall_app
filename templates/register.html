@@ -1,32 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Login & Registration Form</title>
-  <link rel="stylesheet" href="../static/form_css/styles.css">
-</head>
-<body>
-  <div class="container">
-    <div class="registration form">
-      <header>Signup</header>
-      <form method="post" action="{% url 'register_user' %}">
-    {% for field in form %}
-        <div class="fieldWrapper">
-            {{ field.errors }}
-            {{ field.label_tag }} {{ field }}
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#  <meta charset="UTF-8">#}
+{#  <meta name="viewport" content="width=device-width, initial-scale=1.0">#}
+{#  <meta http-equiv="X-UA-Compatible" content="ie=edge">#}
+{#  <title>Login & Registration Form</title>#}
+{#  <link rel="stylesheet" href="../static/form_css/styles.css">#}
+{#</head>#}
+{% extends 'base.html' %}
+{% load static %}
+{%  block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'auth/auth.css' %}">
+    <br>
+    <div class="auth-form">
+        <div>
+            <form method="post" action="{% url 'register_user' %}">
+                {% for field in form %}
+                    <div class="fieldWrapper">
+                        {{ field.errors }}
+                        {{ field.label_tag }} {{ field }}
+                    </div>
+                {% endfor %}
+
+                <input type="submit" class="button submit-btn" value="Signup">
+                {% csrf_token %}
+            </form>
+            <div class="signup">
+                <span class="signup">Already have an account?
+                    <a href="{% url 'login_user' %}" id="signup-label">Login</a>
+                </span>
+            </div>
         </div>
-    {% endfor %}
-    <input type="submit" class="button" value="Signup">
-    {% csrf_token %}
-</form>
-      <div class="signup">
-        <span class="signup">Already have an account?
-         <a href="{% url 'login_user' %}" id="signup-label">Login</a>
-        </span>
-      </div>
     </div>
-  </div>
-</body>
-</html>
+{% endblock %}

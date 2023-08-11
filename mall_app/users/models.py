@@ -1,7 +1,6 @@
 from django.contrib.auth.hashers import make_password
 from django.db import models
 from django.contrib.auth import models as auth_models
-
 from mall_app.stores.models import Store
 
 

@@ -1,6 +1,6 @@
 from datetime import timedelta
 from django.contrib import messages
-from django.contrib.auth import views as auth_views, login, get_user_model, update_session_auth_hash
+from django.contrib.auth import views as auth_views, login, get_user_model, update_session_auth_hash, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.http import JsonResponse
@@ -10,10 +10,10 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views import generic as views
 from django.shortcuts import redirect
-from django.views.generic import DeleteView
+from django.views.generic import DeleteView, FormView
 from mall_app.cinema.models import Ticket
 from mall_app.stores.models import Reservation, Store
-from mall_app.users.forms import UserProfileForm, RegisterUserForm
+from mall_app.users.forms import UserProfileForm, RegisterUserForm, LoginForm
 from mall_app.users.models import UserProfile
 
 
@@ -58,19 +58,21 @@ class RegisterUserView(views.CreateView):
         return super().dispatch(*args, **kwargs)
 
 
-class LoginUserView(auth_views.LoginView):
+class LoginUserView(FormView):
     template_name = 'login.html'
+    form_class = LoginForm
     success_url = reverse_lazy('index')
 
     @method_decorator(anonymous_required)
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['login_form'] = context.pop('form')
-        context['log_form_errors'] = bool(context['login_form'].errors)
-        return context
+    def form_valid(self, form):
+        email = form.cleaned_data.get('email')
+        password = form.cleaned_data.get('password')
+        user = authenticate(email=email, password=password)
+        login(self.request, user)
+        return super().form_valid(form)
 
 
 class UserProfileView(LoginRequiredMixin, views.UpdateView):

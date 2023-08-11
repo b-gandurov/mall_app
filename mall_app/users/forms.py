@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import PasswordResetForm, UserChangeForm
@@ -7,6 +7,7 @@ from mall_app.users.models import UserProfile
 from django.contrib.auth import forms as auth_forms
 
 UserModel = get_user_model()
+
 
 class UserProfileForm(forms.ModelForm):
     new_password = forms.CharField(widget=forms.PasswordInput(), required=False, label="New Password")
@@ -79,6 +80,23 @@ class CustomPasswordResetForm(PasswordResetForm):
                 yield user
         else:
             self.add_error(None, "Email is not registered")
+
+
+class LoginForm(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput)
+
+    def clean(self):
+        email = self.cleaned_data.get('email')
+        password = self.cleaned_data.get('password')
+
+        if email and password:
+            user = authenticate(email=email, password=password)
+            if user is None:
+                raise forms.ValidationError(
+                    'Please enter a correct email and password. Note that both fields may be case-sensitive.')
+
+        return super(LoginForm, self).clean()
 
 
 class RegisterUserForm(auth_forms.UserCreationForm):
