@@ -11,3 +11,8 @@ class CustomerCarForm(forms.ModelForm):
 
 class CarEntryForm(forms.Form):
     license_plate = forms.CharField(label='License Plate', max_length=10)
+
+
+class LicensePlateForm(forms.Form):
+    license_plate = forms.CharField(label='License Plate')
+

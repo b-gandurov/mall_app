@@ -4,12 +4,13 @@ from django.contrib import messages
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
-from .models import Parking
+from .models import Parking, ParkingRate
 from django.views import View
 from django.shortcuts import render, redirect
 from .models import CustomerCar
-from .forms import CustomerCarForm, CarEntryForm
+from .forms import CustomerCarForm, CarEntryForm, LicensePlateForm
 from django.views.generic.edit import FormView, DeleteView
+
 
 class ParkingView(generic.TemplateView):
     template_name = 'parking.html'
@@ -17,6 +18,8 @@ class ParkingView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        lookup_form = LicensePlateForm()
+        context['lookup_form'] = lookup_form
 
         if self.request.user.is_authenticated:
             current_user = self.request.user
@@ -48,7 +51,6 @@ class RegisterCarView(FormView):
     template_name = 'register_car.html'
     form_class = CustomerCarForm
 
-
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         return render(request, self.template_name, {'form': form})
@@ -74,10 +76,6 @@ class RegisterCarView(FormView):
             return redirect('parking')
 
         return render(request, self.template_name, {'form': form})
-
-
-
-
 
 
 class CarEntryView(FormView):
@@ -125,18 +123,24 @@ class CarExitView(View):
         license_plate = request.POST.get('license_plate')
         parking_instance = Parking.objects.filter(license_plate=license_plate, exit_date__isnull=True).first()
 
-
         if parking_instance:
-            # Car found in the parking lot. Mark it as exited.
+            # Calculate fee
+            parking_rate = ParkingRate.objects.first()
+            total_hours = (timezone.now() - parking_instance.entry_date).total_seconds() / 3600
+            payable_hours = max(total_hours - parking_rate.free_hours, 0)
+            fee = payable_hours * parking_rate.hourly_rate
+
+            # Optionally, store the fee
+            parking_instance.fee = fee
             parking_instance.exit_date = timezone.now()
             parking_instance.save()
-            return redirect(reverse('parking'))
 
         # If no matching car is found in the parking lot, return an error message.
         context = {
             'error_message': f"No car with license plate {license_plate} is currently parked."
         }
         return render(request, 'car_exit.html', context)
+
 
 class DeleteCarView(DeleteView):
     model = CustomerCar

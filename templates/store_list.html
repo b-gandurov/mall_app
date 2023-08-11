@@ -9,6 +9,12 @@
 {% block content %}
 
 <body>
+<form method="get">
+    {{ form.search_term.label_tag }} {{ form.search_term }}
+    {{ form.category.label_tag }} {{ form.category }}
+    <input type="submit" value="Search">
+</form>
+
         <h1>Stores</h1>
     {% for store in stores %}
         <h2><a href="{% url 'store_detail' store.id %}">{{ store.name }}</a></h2>

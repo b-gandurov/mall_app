@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Store, Item, Reservation, Category
+from .models import Store, Item, Reservation, Category, ItemCategory, StoreCategory
+
 
 def mark_as_claimed(modeladmin, request, queryset):
     queryset.update(is_claimed=True)
@@ -7,7 +8,7 @@ mark_as_claimed.short_description = "Mark selected reservations as claimed"
 
 @admin.register(Store)
 class StoreAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description',)
+    list_display = ('name', 'description','category')
     search_fields = ('name',)
 
 @admin.register(Item)
@@ -23,7 +24,12 @@ class ReservationAdmin(admin.ModelAdmin):
     list_filter = ('reservation_time',)
     actions = [mark_as_claimed]
 
-@admin.register(Category)
+@admin.register(ItemCategory)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
+
+@admin.register(StoreCategory)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)

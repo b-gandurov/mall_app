@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
+from .forms import StoreSearchForm
 from .models import Store, Item, Reservation
 
 
@@ -13,6 +14,23 @@ class StoreListView(views.ListView):
     model = Store
     template_name = 'store_list.html'
     context_object_name = 'stores'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        form = StoreSearchForm(self.request.GET)
+        if form.is_valid():
+            search_term = form.cleaned_data['search_term']
+            category = form.cleaned_data['category']
+            if search_term:
+                queryset = queryset.filter(name__icontains=search_term)
+            if category:
+                queryset = queryset.filter(category=category)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = StoreSearchForm(self.request.GET)
+        return context
 
 
 class StoreDetailView(views.DetailView):

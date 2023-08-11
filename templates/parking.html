@@ -5,13 +5,13 @@
         <p>{{ parking_message }}</p>
     {% elif error_message %}
         <p>{{ error_message }}</p>
-    {% else %}
+    {% endif %}
         <form action="{% url 'parking' %}" method="get">
             <label for="license_plate">Enter License Plate:</label>
             <input type="text" id="license_plate" name="license_plate" required>
             <button type="submit">Check</button>
         </form>
-    {% endif %}
+
     {% else %}
 
     {% if parked_car %}
