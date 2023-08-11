@@ -3,10 +3,10 @@ from .models import CustomerCar
 
 
 class CustomerCarForm(forms.ModelForm):
+    code = forms.CharField(max_length=12, label='12-digit Code')
     class Meta:
         model = CustomerCar
-        fields = ['license_plate', 'car_type']
-
+        fields = ['license_plate', 'code']
 
 
 class CarEntryForm(forms.Form):

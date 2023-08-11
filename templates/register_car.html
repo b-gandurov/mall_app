@@ -1,13 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="">
 <head>
     <title>Register Car</title>
 </head>
 <body>
     <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Register Car</button>
-    </form>
+    {% csrf_token %}
+    {{ form.license_plate.label_tag }} {{ form.license_plate }}
+    {{ form.car_type.label_tag }} {{ form.car_type }}
+    {{ form.code.label_tag }} {{ form.code }}
+    <button type="submit">Register Car</button>
+</form>
+
 </body>
 </html>

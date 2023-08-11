@@ -4,6 +4,15 @@
     <title>Enter Parking</title>
 </head>
 <body>
+<a href={% url 'index' %}>home</a>
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
     <h1>Enter Parking</h1>
 <p>Free spots: {{ free_spots }}</p>
 
