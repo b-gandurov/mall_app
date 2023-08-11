@@ -1716,8 +1716,8 @@ input, select, textarea {
 
 		#logo-image {
 			position: relative;
-			top: 100px;
-			height: 30px;
+			top: 5px;
+			height: 50px;
 		}
 
 		/* Multi-use */

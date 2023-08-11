@@ -17,6 +17,7 @@
     {% if parked_car %}
         <h2>Your car {{ parked_car.customer_car.license_plate }} is currently parked.</h2>
         <p>Entrance Date: {{ parked_car.entrance_date }}</p>
+        <p>Amount Owed: {{ parked_car.amount_to_pay }}</p>
     {% else %}
         <h2>No car is currently parked.</h2>
     {% endif %}

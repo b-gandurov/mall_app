@@ -1,58 +1,145 @@
-<!DOCTYPE html>
-<html lang="">
-<head>
+{#<!DOCTYPE html>#}
+{#<html lang="">#}
+{#<head>#}
+{##}
+{#</head>#}
+{#<body>#}
+{#{% extends 'base.html' %}#}
+{#{% block content %}#}
+{#{% load custom_filters %}#}
+{#<link rel="stylesheet" type="text/css" href="../static/cinema/seats.css">#}
+{##}
+{#{% for movie in movies %}#}
+{#    <h2>{{ movie.movie_name }}</h2>#}
+{#    {% for schedule in movie.schedule_set.all %}#}
+{#        <p>Show time: {{ schedule.show_time }}</p>#}
+{#        <p>Hall: {{ schedule.hall.hall_name }}</p>#}
+{##}
+{#        <h3>Seats:</h3>#}
+{#        <form class="seat-booking-form" method="POST">#}
+{#            {% csrf_token %}#}
+{#            <input type="hidden" name="screening" value="{{ schedule.id }}">#}
+{##}
+{#            {% for seat in schedule.hall.hallseat_set.all %}#}
+{#                <label data-seat="{{ seat.row }}-{{ seat.column }}">#}
+{#                    <input type="checkbox" name="seats" value="{{ seat.id }}" {% if seat.id in booked_seats|get_item:schedule.id %}disabled{% endif %}>#}
+{##}
+{#                </label>#}
+{#            {% endfor %}#}
+{#            <button type="submit">Book Selected Seats</button>#}
+{#        </form>#}
+{#    {% endfor %}#}
+{#{% endfor %}#}
+{##}
+{#    <script>#}
+{#    function updateSeatColor(label) {#}
+{#        const input = label.querySelector('input');#}
+{#        if (input.checked || input.disabled) {#}
+{#            label.style['background-color'] = 'red';#}
+{#        } else {#}
+{#            label.style['background-color'] = 'green';#}
+{#        }#}
+{#    }#}
+{##}
+{#    document.querySelectorAll('.seat-booking-form label').forEach((label) => {#}
+{#        const input = label.querySelector('input');#}
+{##}
+{#        // Set the initial color#}
+{#        updateSeatColor(label);#}
+{##}
+{#        // Add an event listener to update the color when the input changes#}
+{#        input.addEventListener('change', () => {#}
+{#            updateSeatColor(label);#}
+{#        });#}
+{#    });#}
+{#</script>#}
+{##}
+{#{% endblock %}#}
+{#</body>#}
+{#</html>#}
 
-</head>
-<body>
 {% extends 'base.html' %}
 {% block content %}
 {% load custom_filters %}
+{% load static %}
 <link rel="stylesheet" type="text/css" href="../static/cinema/seats.css">
 
-{% for movie in movies %}
-    <h2>{{ movie.movie_name }}</h2>
-    {% for schedule in movie.schedule_set.all %}
-        <p>Show time: {{ schedule.show_time }}</p>
-        <p>Hall: {{ schedule.hall.hall_name }}</p>
+<div class="container">
+    {% for movie in movies %}
+        <div class="row">
+            <div class="col-2">
+            </div>
+            <div class="col-1">
+                <img src="{{ movie.image }}"/>
+                <img src="{% static 'images/pic06.jpg' %}" />
+            </div>
+            <div class="movie col-7">
+                <p class="movie-title">{{ movie.movie_name }}</p>
+                <div class="container">
+                    {% for schedule in movie.schedule_set.all %}
+                        <button data-screening="{{ schedule.id }}" class="screening-btn">
+                            {{ schedule.hall.hall_name }}: {{ schedule.show_time }}
+                        </button>
+                    {% endfor %}
 
-        <h3>Seats:</h3>
-        <form class="seat-booking-form" method="POST">
-            {% csrf_token %}
-            <input type="hidden" name="screening" value="{{ schedule.id }}">
+                    {% for schedule in movie.schedule_set.all %}
+                        <form data-screening="{{ schedule.id }}" class="seat-booking-form" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="screening" value="{{ schedule.id }}">
 
-            {% for seat in schedule.hall.hallseat_set.all %}
-                <label data-seat="{{ seat.row }}-{{ seat.column }}">
-                    <input type="checkbox" name="seats" value="{{ seat.id }}" {% if seat.id in booked_seats|get_item:schedule.id %}disabled{% endif %}>
-
-                </label>
-            {% endfor %}
-            <button type="submit">Book Selected Seats</button>
-        </form>
+                            {% for seat in schedule.hall.hallseat_set.all %}
+                                <label data-seat="{{ seat.row }}-{{ seat.column }}">
+                                    <input type="checkbox" name="seats" value="{{ seat.id }}" {% if seat.id in booked_seats|get_item:schedule.id %}disabled{% endif %}>
+                                </label>
+                            {% endfor %}
+                            <button type="submit">Book Selected Seats</button>
+                        </form>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <hr>
     {% endfor %}
-{% endfor %}
+</div>
 
     <script>
-    function updateSeatColor(label) {
-        const input = label.querySelector('input');
-        if (input.checked || input.disabled) {
-            label.style['background-color'] = 'red';
-        } else {
-            label.style['background-color'] = 'green';
+        function updateSeatColor(label) {
+            const input = label.querySelector('input');
+            if (input.checked || input.disabled) {
+                label.style['background-color'] = 'red';
+            } else {
+                label.style['background-color'] = 'green';
+            }
         }
-    }
 
-    document.querySelectorAll('.seat-booking-form label').forEach((label) => {
-        const input = label.querySelector('input');
+        document.querySelectorAll('.seat-booking-form label').forEach((label) => {
+            const input = label.querySelector('input');
 
-        // Set the initial color
-        updateSeatColor(label);
-
-        // Add an event listener to update the color when the input changes
-        input.addEventListener('change', () => {
+            // Set the initial color
             updateSeatColor(label);
+
+            // Add an event listener to update the color when the input changes
+            input.addEventListener('change', () => {
+                updateSeatColor(label);
+            });
         });
-    });
-</script>
+
+
+        const screeningForms = document.querySelectorAll('.seat-booking-form[data-screening]');
+        function showScreening(event) {
+            screeningForms.forEach((form) => {
+                if (form.dataset.screening !== event.target.dataset.screening) {
+                    form.classList.remove('active');
+                } else {
+                    form.classList.add('active');
+                }
+            });
+        }
+
+        document.querySelectorAll('.screening-btn[data-screening]').forEach((btn) => {
+            btn.onclick = showScreening;
+        })
+    </script>
 
 {% endblock %}
 </body>

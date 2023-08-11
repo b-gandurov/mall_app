@@ -52,6 +52,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
+    'mall_app.middleware.AuthenticationMiddleware',
+
 ]
 
 ROOT_URLCONF = 'mall_app.urls'
