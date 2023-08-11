@@ -1,24 +1,34 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Parking</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
+    {% if not user.is_authenticated %}
+    {% if parking_message %}
+        <p>{{ parking_message }}</p>
+    {% elif error_message %}
+        <p>{{ error_message }}</p>
+    {% else %}
+        <form action="{% url 'parking' %}" method="get">
+            <label for="license_plate">Enter License Plate:</label>
+            <input type="text" id="license_plate" name="license_plate" required>
+            <button type="submit">Check</button>
+        </form>
+    {% endif %}
+    {% else %}
+
     {% if parked_car %}
         <h2>Your car {{ parked_car.customer_car.license_plate }} is currently parked.</h2>
         <p>Entrance Date: {{ parked_car.entrance_date }}</p>
     {% else %}
         <h2>No car is currently parked.</h2>
     {% endif %}
-<a href="{% url 'register_car' %}">Register Car</a>
+    <a href="{% url 'register_car' %}">Register Car</a>
     <h2>Your registered cars:</h2>
     {% for car in registered_cars %}
-    <div>
-        License Plate: {{ car.license_plate }}
-        <a href="{% url 'delete_car' car.pk %}">
-            <button>Delete</button>
-        </a>
-    </div>
-{% endfor %}
-</body>
-</html>
+        <div>
+            License Plate: {{ car.license_plate }}
+            <a href="{% url 'delete_car' car.pk %}">
+                <button>Delete</button>
+            </a>
+        </div>
+    {% endfor %}
+    {% endif %}
+{% endblock %}

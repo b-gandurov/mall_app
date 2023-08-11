@@ -9,27 +9,39 @@ from django.views import View
 from django.shortcuts import render, redirect
 from .models import CustomerCar
 from .forms import CustomerCarForm, CarEntryForm
-from django.views.generic.edit import FormView, UpdateView, DeleteView
+from django.views.generic.edit import FormView, DeleteView
 
 class ParkingView(generic.TemplateView):
     template_name = 'parking.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        current_user = self.request.user
 
-        if hasattr(current_user, 'userprofile'):
+
+        if self.request.user.is_authenticated:
+            current_user = self.request.user
             parked_car = Parking.objects.filter(customer_car__customer=current_user.userprofile,
-                                                exit_date__isnull=True).first() # changed line here
+                                                exit_date__isnull=True).first()
             context['parked_car'] = parked_car
             context['registered_cars'] = CustomerCar.objects.filter(customer=current_user.userprofile)
+        else:
+            license_plate = self.request.GET.get('license_plate')
+            if license_plate:
+                parking_instance = Parking.objects.filter(license_plate=license_plate, exit_date__isnull=True).first()
 
-        context['free_spots'] = 400 - Parking.objects.filter(exit_date__isnull=True).count()
+                if parking_instance:
+                    if parking_instance.customer_car:
+                        context['error_message'] = 'This car is registered to another user.'
+                    else:
+                        entry_time = parking_instance.entrance_date
+                        time_parked = timezone.now() - entry_time
+                        hours_parked = time_parked.total_seconds() // 3600
+                        context[
+                            'parking_message'] = f'The car has been parked for {hours_parked} hours (since {entry_time}).'
+                else:
+                    context['error_message'] = 'Invalid license plate.'
 
         return context
-
-
-# views.py
 
 
 class RegisterCarView(FormView):
@@ -46,7 +58,6 @@ class RegisterCarView(FormView):
         if form.is_valid():
             entered_code = form.cleaned_data['code']
 
-            # Check if there is a parked car with the entered code
             parking_instance = Parking.objects.filter(non_registered_code=entered_code, exit_date__isnull=True).first()
 
             if not parking_instance:
@@ -95,10 +106,9 @@ class CarEntryView(FormView):
 
         except CustomerCar.DoesNotExist:
             car = None
-            code = random.randint(100000000000, 999999999999)  # Generate a random 12-digit code
+            code = random.randint(100000000000, 999999999999)
             messages.success(self.request, f"Your car is not registered. Here is your 12-digit code: {code}")
             Parking.objects.create(license_plate=license_plate, non_registered_code=code)
-            # Parking.objects.create(customer_car=car)
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -113,8 +123,6 @@ class CarExitView(View):
 
     def post(self, request):
         license_plate = request.POST.get('license_plate')
-
-        # Find the car in the parking lot
         parking_instance = Parking.objects.filter(license_plate=license_plate, exit_date__isnull=True).first()
 
 
