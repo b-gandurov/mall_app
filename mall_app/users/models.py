@@ -8,7 +8,6 @@ from mall_app.stores.models import Store
 class UserProfile(models.Model):
     # User = get_user_model()
     user = models.OneToOneField("AppUser", on_delete=models.CASCADE)
-    managed_store = models.ForeignKey(Store, on_delete=models.SET_NULL, null=True, blank=True)
     first_name = models.CharField(max_length=100, blank=True)
     last_name = models.CharField(max_length=100, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
