@@ -1,9 +1,12 @@
-<!DOCTYPE html>
-<html lang="">
-<head>
-    <title>Register Car</title>
-</head>
-<body>
+{#<!DOCTYPE html>#}
+{#<html lang="">#}
+{#<head>#}
+{#    <title>Register Car</title>#}
+{#</head>#}
+{#<body>#}
+{% extends 'base.html' %}
+{% block content %}
+    <div class="register-car-view">
     <form method="post">
     {% csrf_token %}
     {{ form.license_plate.label_tag }} {{ form.license_plate }}
@@ -11,6 +14,15 @@
     {{ form.code.label_tag }} {{ form.code }}
     <button type="submit">Register Car</button>
 </form>
+    </div>
 
-</body>
-</html>
+    <style>
+    .register-car-view {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    </style>
+{% endblock %}
+{#</body>#}
+{#</html>#}

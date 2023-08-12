@@ -25,8 +25,6 @@ SECRET_KEY = 'django-insecure-5=!her10r7ke$%%+w(ptm#ma(_ebm_w8+m@y4p5264sc&^#6=-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -52,7 +50,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    'mall_app.middleware.AuthenticationMiddleware',
+    # 'mall_app.middleware.AuthenticationMiddleware',
 
 ]
 
@@ -80,38 +78,21 @@ WSGI_APPLICATION = 'mall_app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if DEBUG:
-    # DATABASES = {
-    #     'default': {
-    #         'ENGINE': 'django.db.backends.sqlite3',
-    #         'NAME': BASE_DIR / 'db.sqlite3',
-    #     }
-    # }
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": "mall_db",
-            "USER": "adminuser542",
-            "PASSWORD": "Hhjypb8rKIUZMSd",
-            "HOST": "127.0.0.1",
-            "PORT": "5432",
-        }
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "mall_db",
+        "USER": "adminuser542",
+        "PASSWORD": "Hhjypb8rKIUZMSd",
+        "HOST": "127.0.0.1",
+        "PORT": "5432",
     }
+}
+if DEBUG == True:
     ALLOWED_HOSTS = []
 else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": "mall_db",
-            "USER": "adminuser542",
-            "PASSWORD": "Hhjypb8rKIUZMSd",
-            "HOST": "127.0.0.1",
-            "PORT": "5432",
-        }
-    }
     ALLOWED_HOSTS = ['127.0.0.1']
-    SESSION_COOKIE_AGE = 300
-    SESSION_SAVE_EVERY_REQUEST = True
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -144,26 +125,20 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
-
-STATICFILES_DIRS = (
-    BASE_DIR / 'static',
-)
+# Static and media files settings
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 AUTH_USER_MODEL = 'users.AppUser'
-
 LOGIN_REDIRECT_URL = 'index'
 
-
-
+# sending Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -171,3 +146,6 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'themalldjangoproject@gmail.com'
 EMAIL_HOST_PASSWORD = 'yfqkmvieeslckrmz'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# SESSION_COOKIE_AGE = 300
+# SESSION_SAVE_EVERY_REQUEST = True

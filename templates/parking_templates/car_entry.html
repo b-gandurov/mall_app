@@ -11,15 +11,15 @@
         {% endif %}
 
     </div>
-    {#    <h2>Free spots: {{ free_spots }}</h2>#}
     <div class="container-car-entrance-exit">
-        <h2>Free spots: {{ free_spots }}</h2>
+
         <div class="section form-section">
             <form method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button class="messages-section" type="submit">Submit</button>
+                <button class="messages-section button-submit-parking" type="submit">Submit</button>
             </form>
+            <h2>Free spots: {{ free_spots }}</h2>
         </div>
     </div>
 
@@ -29,6 +29,7 @@
             justify-content: center;
             align-items: center;
             width: 100%;
+            text-align: center;
         }
 
         .section {
@@ -38,9 +39,28 @@
 
         .messages-section {
             display: flex;
+            height: 100px;
             justify-content: center;
             align-items: center;
             width: 100%;
         }
+        .button-submit-parking {
+            {#height: 100px;#}
+            border: none; /* Remove border */
+            {#color: white; /* White text */#}
+            {#padding: 10px 20px; /* Some padding */#}
+            text-align: center; /* Center text */
+            text-decoration: none; /* Remove underline */
+            display: inline-block;
+            {#font-size: 16px; /* Increase font size */#}
+            {#margin: 4px 2px; /* Add some margin */#}
+            cursor: pointer; /* Add a mouse pointer on hover */
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        .submit-button:hover {
+            background-color: #45a049; /* Darken background on hover */
+        }
+
     </style>
 {% endblock %}

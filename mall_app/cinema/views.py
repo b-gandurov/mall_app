@@ -30,6 +30,8 @@ class CinemaScheduleView(ListView):
             for schedule in movie.schedule_set.all():
                 booked_seats[schedule.id] = [ticket.seat.id for ticket in schedule.ticket_set.all()]
         context['booked_seats'] = booked_seats
+        context['is_authenticated'] = self.request.user.is_authenticated
+
         return context
 
     def post(self, request, *args, **kwargs):
@@ -37,7 +39,7 @@ class CinemaScheduleView(ListView):
         user_profile = UserProfile.objects.get(user=user)
         selected_seats = request.POST.getlist('seats')
         screening_id = request.POST.get('screening')
-
+        # Fetch the selected screening
         screening = get_object_or_404(Schedule, id=screening_id)
         user_ticket_count = Ticket.objects.filter(customer=user_profile).count()
 
@@ -48,7 +50,7 @@ class CinemaScheduleView(ListView):
                 if seat.user is None:
                     seat.user = user
                     seat.save()
-
+                    # Create a new ticket
                     Ticket.objects.create(
                         customer=user_profile,
                         seat=seat,

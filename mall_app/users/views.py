@@ -38,7 +38,7 @@ UserModel = get_user_model()
 
 
 def index(request):
-    stores = Store.objects.all()
+    stores = Store.objects.all().order_by('id')
     return render(request, 'index.html', {'stores': stores})
 
 

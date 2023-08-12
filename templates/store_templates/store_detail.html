@@ -14,12 +14,12 @@
             <div class="row">
                 <div class="col-6 col-12-medium col-12-small">{{ store.description }}</div>
                 <div class="col-6 col-12-medium col-12-small">
-{#                    <ul>#}
-{#                        <li>AAAAAA</li>#}
-{#                        <li>AAAAAA</li>#}
-{#                        <li>AAAAAA</li>#}
-{#                        <li>AAAAAA</li>#}
-{#                    </ul>#}
+                    <ul>
+                        <li class="store-details-inside">Working hours: {{ store.working_hours }}</li>
+                        <li class="store-details-inside">Website: {{ store.website }}</li>
+                        <li class="store-details-inside">Email: {{ store.email }}</li>
+                        <li class="store-details-inside">Location: {{ store.location }}</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -39,7 +39,7 @@
                     </div>
                 </div>
             {% empty %}
-                <p>No items available in this store</p>
+
             {% endfor %}
         </div>
     </div>

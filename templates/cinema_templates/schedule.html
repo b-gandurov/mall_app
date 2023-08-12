@@ -32,7 +32,11 @@
                                     <input type="checkbox" name="seats" value="{{ seat.id }}" {% if seat.id in booked_seats|get_item:schedule.id %}disabled{% endif %}>
                                 </label>
                             {% endfor %}
+                        {% if  is_authenticated %}
                             <button type="submit">Book Selected Seats</button>
+                        {% else %}
+                            <a href="{% url 'login_user' %}">You need to be logged user to book tickets</a>
+                        {% endif %}
                         </form>
                     {% endfor %}
                 </div>
@@ -41,46 +45,5 @@
         <hr>
     {% endfor %}
 </div>
-    <script>
-        function updateSeatColor(label) {
-            const input = label.querySelector('input');
-            if (input.checked || input.disabled) {
-                label.style['background-color'] = 'red';
-            } else {
-                label.style['background-color'] = 'green';
-            }
-        }
-
-        document.querySelectorAll('.seat-booking-form label').forEach((label) => {
-            const input = label.querySelector('input');
-            updateSeatColor(label);
-            input.addEventListener('change', () => {
-                updateSeatColor(label);
-            });
-        });
-
-
-            const screeningForms = document.querySelectorAll('.seat-booking-form[data-screening]');
-            function showScreening(event) {
-    screeningForms.forEach((form) => {
-        if (form.dataset.screening === event.target.dataset.screening) {
-            if (form.classList.contains('active')) {
-                form.classList.remove('active');
-            } else {
-                form.classList.add('active');
-            }
-        } else {
-            form.classList.remove('active');
-        }
-    });
-}
-
-
-        document.querySelectorAll('.screening-btn[data-screening]').forEach((btn) => {
-            btn.onclick = showScreening;
-        })
-    </script>
-
+  <script src="{% static 'cinema/cinema.js' %}"></script>
 {% endblock %}
-</body>
-</html>

@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils import timezone
-
 from mall_app.users.models import UserProfile
 
 
@@ -53,7 +52,6 @@ class Parking(models.Model):
 class ParkingRate(models.Model):
     free_hours = models.PositiveIntegerField(default=2)
     hourly_rate = models.DecimalField(max_digits=5, decimal_places=2)
-
 
     def __str__(self):
         return f"{self.free_hours} free hours, {self.hourly_rate} per hour"

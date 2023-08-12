@@ -1,6 +1,6 @@
-# mall_app/stores/models.py
 from datetime import timedelta
 
+from django.core.validators import RegexValidator, URLValidator, EmailValidator
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
@@ -19,17 +19,28 @@ class Category(models.Model):
 class StoreCategory(Category):
     pass
 
+
 class ItemCategory(Category):
     pass
 
+
 class Store(models.Model):
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
+                                 message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
+
     name = models.CharField(max_length=200)
     description = models.TextField()
     image = models.ImageField(upload_to='stores/', null=True, blank=True)
     category = models.ForeignKey(StoreCategory, related_name='stores', on_delete=models.SET_NULL, null=True)
+    working_hours = models.CharField(max_length=200,blank=True, null=True, default='10.00-22.00')
+    website = models.URLField(max_length=200, blank=True, null=True, validators=[URLValidator()])
+    email = models.EmailField(max_length=254, blank=True, null=True, validators=[EmailValidator()])
+    phone = models.CharField(validators=[phone_regex], max_length=20, blank=True, null=True)
+    location = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
         return self.name
+
 
 class Item(models.Model):
     name = models.CharField(max_length=200)

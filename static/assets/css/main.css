@@ -1562,12 +1562,12 @@ img.movie-poster {
 				text-decoration: none;
 			}
 
-		#header nav {
-			position: absolute;
-			right: 0;
-			bottom: 35px;
-			font-weight: 200;
-		}
+		/*#header nav {*/
+		/*	position: absolute;*/
+		/*	right: 0;*/
+		/*	!*bottom: 35px;*!*/
+		/*	font-weight: 200;*/
+		/*}*/
 
 			#header nav a {
 				color: #c6c8c8;
@@ -1735,7 +1735,7 @@ img.movie-poster {
 
 	#nav a {
 		padding: 10px;
-		border: 1px solid #c6c8c8;
+		/*border: 1px solid #c6c8c8;*/
 		border-radius: 9px;
 		font-weight: bold;
 	}
@@ -1825,7 +1825,7 @@ img.movie-poster {
 		display: none;
 	}
 
-	@media screen and (max-width: 980px) {
+	@media screen and (max-width: 1200px) {
 		#logo-image {
 			top: 0px;
 			margin-top: 5px;

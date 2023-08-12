@@ -16,7 +16,7 @@ class StoreListView(views.ListView):
     context_object_name = 'stores'
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = super().get_queryset().order_by('id')
         form = StoreSearchForm(self.request.GET)
         if form.is_valid():
             search_term = form.cleaned_data['search_term']

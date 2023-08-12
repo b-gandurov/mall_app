@@ -24,13 +24,18 @@ class ParkingView(generic.TemplateView):
         if self.request.user.is_authenticated:
             current_user = self.request.user
             parked_car = Parking.objects.filter(customer_car__customer=current_user.userprofile,
-                                                exit_date__isnull=True).first()
+                                                exit_date__isnull=True
+                                                ).first()
             context['parked_car'] = parked_car
-            context['registered_cars'] = CustomerCar.objects.filter(customer=current_user.userprofile)
+            context['registered_cars'] = CustomerCar.objects.filter(
+                customer=current_user.userprofile)
         else:
             license_plate = self.request.GET.get('license_plate')
             if license_plate:
-                parking_instance = Parking.objects.filter(license_plate=license_plate, exit_date__isnull=True).first()
+                parking_instance = Parking.objects.filter(
+                    license_plate=license_plate,
+                    exit_date__isnull=True
+                ).first()
 
                 if parking_instance:
                     if parking_instance.customer_car:
@@ -62,8 +67,10 @@ class RegisterCarView(FormView):
         form = self.form_class(request.POST)
         if form.is_valid():
             entered_code = form.cleaned_data['code']
-
-            parking_instance = Parking.objects.filter(non_registered_code=entered_code, exit_date__isnull=True).first()
+            parking_instance = Parking.objects.filter(
+                non_registered_code=entered_code,
+                exit_date__isnull=True
+            ).first()
 
             if not parking_instance:
                 form.add_error('code', 'Invalid code. Please enter the correct 12-digit code.')
@@ -103,7 +110,6 @@ class CarEntryView(FormView):
             Parking.objects.create(license_plate=license_plate, customer_car=car)
 
         except CustomerCar.DoesNotExist:
-            # car = None
             code = random.randint(100000000000, 999999999999)
             messages.success(self.request, f"Your car is not registered. Here is your 12-digit code: {code}.\n You can register your car from your profile")
             Parking.objects.create(license_plate=license_plate, non_registered_code=code)
@@ -115,9 +121,11 @@ class CarEntryView(FormView):
         return context
 
 
+def get(request):
+    return render(request, 'parking_templates/car_exit.html')
+
+
 class CarExitView(View):
-    def get(self, request):
-        return render(request, 'parking_templates/car_exit.html')
 
     def post(self, request):
         license_plate = request.POST.get('license_plate')

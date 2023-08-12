@@ -2,16 +2,24 @@ from django.contrib import admin
 from .models import Store, Item, Reservation, ItemCategory, StoreCategory
 
 
-def mark_as_claimed(modeladmin, request, queryset):
+def mark_as_claimed(queryset):
     queryset.update(is_claimed=True)
     mark_as_claimed.short_description = "Mark selected reservations as claimed"
 
 
 @admin.register(Store)
 class StoreAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'category')
-    search_fields = ('name',)
+    list_display = ('name', 'description', 'category', 'working_hours', 'website', 'email', 'phone', 'location')
+    search_fields = ('name', 'working_hours', 'website', 'email', 'phone', 'location')
 
+    fieldsets = (
+        (None, {
+            'fields': ('name', 'description', 'category')
+        }),
+        ('Contact Information', {
+            'fields': ('working_hours', 'website', 'email', 'phone', 'location'),
+        }),
+    )
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
