@@ -34,7 +34,15 @@ body{
 #check{
   display: none;
 }
-
+img.movie-poster {
+    width: 150px; /* Fixed width */
+    height: 225px; /* Fixed height */
+    border: 3px solid #000; /* Border around the image */
+    object-fit: cover; /* Resize the image to cover the container */
+    display: block; /* To allow setting margins */
+    margin: 10px auto; /* Center the image horizontally */
+    overflow: visible; /* Override the overflow property from the img selector */
+}
 .container .form{
   padding: 2rem;
 }

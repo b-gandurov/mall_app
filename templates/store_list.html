@@ -6,20 +6,25 @@
 
     <br>
     <form method="get">
-        <div class="container">
+        <div class="container search-container">
             <div class="row">
-                <div class="col-4">
-                    {{ form.search_term.label_tag }} {{ form.search_term }}
+                <div class="col-4 search-col">
+                    <label class="search-label"
+                           for="search_term">{{ form.search_term.label_tag }} {{ form.search_term }}</label>
                 </div>
-                <div class="col-4">
-                    {{ form.category.label_tag }} {{ form.category }}
+                <div class="col-4 search-col">
+                    <label class="search-label" for="category">{{ form.category.label_tag }} {{ form.category }}</label>
+
+
                 </div>
-                <div class="col-4">
-                    <input type="submit" value="Search">
+                <div class="col-4 search-col">
+                    <input class="search-button" type="submit" value="Search">
                 </div>
             </div>
         </div>
     </form>
+
+
 
     <div class="store-list">
         {% for store in stores %}
@@ -32,4 +37,30 @@
             <p>No stores available.</p>
         {% endfor %}
     </div>
+
+<style>
+
+.store-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.store-list-item {
+    {#margin: 10px; /* Add some margin between the store items */#}
+    {#position: relative;#}
+}
+
+.store-list-item a {
+    display: block;
+}
+
+.store-list-item img {
+    width: 100%; /* Make the image take up the full width of its container */
+    {#height: 100%; /* Maintain the aspect ratio */#}
+    border: none; /* Remove any default border */
+    display: block; /* Make sure the image is a block-level element */
+}
+
+</style>
 {% endblock %}

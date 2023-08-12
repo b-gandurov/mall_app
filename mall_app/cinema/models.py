@@ -1,12 +1,9 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import models
-from django.http import Http404, JsonResponse
-from django.views import View
-
 from mall_app.users.models import UserProfile
 
 
+# Defines a cinema hall with a name and seating capacity
 class CinemaHall(models.Model):
     hall_name = models.CharField(max_length=255)
     capacity = models.IntegerField()
@@ -18,11 +15,13 @@ class CinemaHall(models.Model):
         return self.hall_name
 
 
+# Defines a movie with its name, type, duration, and associated cinema halls
 class Movie(models.Model):
     movie_name = models.CharField(max_length=255)
     movie_type = models.CharField(max_length=255)
     duration = models.DurationField()
     halls = models.ManyToManyField(CinemaHall)
+    image = models.ImageField(upload_to='movies/', null=True, blank=True)
 
     class Meta:
         verbose_name_plural = "Movies"
@@ -31,6 +30,7 @@ class Movie(models.Model):
         return self.movie_name
 
 
+# Defines the schedule for a particular movie in a cinema hall
 class Schedule(models.Model):
     hall = models.ForeignKey(CinemaHall, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
@@ -43,6 +43,7 @@ class Schedule(models.Model):
         return f"{self.movie.movie_name} in {self.hall.hall_name} at {self.show_time}"
 
 
+# Defines the seats in a cinema hall
 class HallSeat(models.Model):
     User = get_user_model()
     hall = models.ForeignKey(CinemaHall, on_delete=models.CASCADE)
@@ -53,25 +54,13 @@ class HallSeat(models.Model):
     is_booked = models.BooleanField(default=False)
 
     class Meta:
-        unique_together = ['hall', 'row', 'column']
+        unique_together = ['row', 'column','hall']
 
     def __str__(self):
         return f'Hall {self.hall_id}, Row {self.row}, Column {self.column}'
 
 
-def create_hall_seats(hall):
-
-    HallSeat.objects.filter(hall=hall).delete()
-
-
-    number_of_rows = hall.capacity // 16
-
-
-    for row in range(1, number_of_rows + 1):
-        for column in range(1, 17):
-            HallSeat.objects.create(hall=hall, row=row, column=column)
-
-
+# Defines a ticket purchased by a customer for a particular screening
 class Ticket(models.Model):
     customer = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     seat = models.ForeignKey(HallSeat, on_delete=models.CASCADE)
@@ -82,5 +71,3 @@ class Ticket(models.Model):
 
     def __str__(self):
         return f"Ticket {self.id} for {self.customer.user.email}"
-
-

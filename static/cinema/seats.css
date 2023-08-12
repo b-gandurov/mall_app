@@ -1,10 +1,10 @@
-.movie-title {
-    font-size: 50px;
-    font-weight: bold;
-    font-style: italic;
-    margin-bottom: 10px;
-    line-height: 55px;
-}
+/*.movie-title {*/
+/*    font-size: 50px;*/
+/*    font-weight: bold;*/
+/*    font-style: italic;*/
+/*    margin-bottom: 10px;*/
+/*    line-height: 55px;*/
+/*}*/
 
 .screening-btn {
     height: 30px;
@@ -23,14 +23,22 @@
 .seat-booking-form {
     display: none;
     flex-wrap: wrap;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
     max-width: 624px;
 }
 
 .seat-booking-form.active {
     display: flex;
 }
-
+.movie-poster {
+    width: 150px;
+    height: 225px;
+    border: 3px solid #000;
+    object-fit: cover;
+    display: block;
+    margin: 10px auto;
+    overflow: visible;
+}
 .seat-booking-form label {
     width: 50px;
     height: 35px;

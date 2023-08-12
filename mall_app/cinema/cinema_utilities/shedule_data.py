@@ -22,7 +22,7 @@ def generate_schedules():
         hall = random.choice(halls)
         movie = random.choice(movies)
         show_time = timezone.now() + timedelta(days=random.randint(1, 60),
-                                               hours=random.randint(0, 23))  # random date and time in the next 60 days
+                                               hours=random.randint(0, 23))
 
         schedule = Schedule(hall=hall, movie=movie, show_time=show_time)
         schedule.save()

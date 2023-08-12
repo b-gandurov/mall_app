@@ -11,10 +11,7 @@
     {% for movie in movies %}
         <div class="row">
             <div class="col-2">
-            </div>
-            <div class="col-1">
-                <img src="{{ movie.image }}"/>
-                <img src="{% static 'images/pic06.jpg' %}" />
+                <img class="movie-poster" src="{% get_media_prefix %}{{ movie.image }}" />
             </div>
             <div class="movie col-7">
                 <p class="movie-title">{{ movie.movie_name }}</p>
@@ -44,7 +41,6 @@
         <hr>
     {% endfor %}
 </div>
-
     <script>
         function updateSeatColor(label) {
             const input = label.querySelector('input');
@@ -57,27 +53,28 @@
 
         document.querySelectorAll('.seat-booking-form label').forEach((label) => {
             const input = label.querySelector('input');
-
-            // Set the initial color
             updateSeatColor(label);
-
-            // Add an event listener to update the color when the input changes
             input.addEventListener('change', () => {
                 updateSeatColor(label);
             });
         });
 
 
-        const screeningForms = document.querySelectorAll('.seat-booking-form[data-screening]');
-        function showScreening(event) {
-            screeningForms.forEach((form) => {
-                if (form.dataset.screening !== event.target.dataset.screening) {
-                    form.classList.remove('active');
-                } else {
-                    form.classList.add('active');
-                }
-            });
+            const screeningForms = document.querySelectorAll('.seat-booking-form[data-screening]');
+            function showScreening(event) {
+    screeningForms.forEach((form) => {
+        if (form.dataset.screening === event.target.dataset.screening) {
+            if (form.classList.contains('active')) {
+                form.classList.remove('active');
+            } else {
+                form.classList.add('active');
+            }
+        } else {
+            form.classList.remove('active');
         }
+    });
+}
+
 
         document.querySelectorAll('.screening-btn[data-screening]').forEach((btn) => {
             btn.onclick = showScreening;

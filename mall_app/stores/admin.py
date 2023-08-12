@@ -4,18 +4,22 @@ from .models import Store, Item, Reservation, ItemCategory, StoreCategory
 
 def mark_as_claimed(modeladmin, request, queryset):
     queryset.update(is_claimed=True)
-mark_as_claimed.short_description = "Mark selected reservations as claimed"
+    mark_as_claimed.short_description = "Mark selected reservations as claimed"
+
 
 @admin.register(Store)
 class StoreAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description','category')
+    list_display = ('name', 'description', 'category')
     search_fields = ('name',)
+
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'store', 'available_for_reservation', 'price', 'category', 'quantity', 'reservation_timer') # Added reservation_timer here
+    list_display = (
+    'name', 'description', 'store', 'available_for_reservation', 'price', 'category', 'quantity', 'reservation_timer')
     search_fields = ('name',)
     list_filter = ('store', 'available_for_reservation',)
+
 
 @admin.register(Reservation)
 class ReservationAdmin(admin.ModelAdmin):
@@ -24,10 +28,12 @@ class ReservationAdmin(admin.ModelAdmin):
     list_filter = ('reservation_time',)
     actions = [mark_as_claimed]
 
+
 @admin.register(ItemCategory)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name',)
     search_fields = ('name',)
+
 
 @admin.register(StoreCategory)
 class CategoryAdmin(admin.ModelAdmin):

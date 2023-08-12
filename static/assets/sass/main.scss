@@ -6,12 +6,6 @@
 @import 'libs/html-grid';
 @import url('https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300,200');
 
-/*
-	Halcyonic by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
-*/
-
 // Breakpoints.
 
 	@include breakpoints((
@@ -184,7 +178,15 @@
 			@include html-grid((20px, 20px), 'small');
 		}
 	}
-
+img.movie-poster {
+    width: 150px; /* Fixed width */
+    height: 225px; /* Fixed height */
+    border: 3px solid #000; /* Border around the image */
+    object-fit: cover; /* Resize the image to cover the container */
+    display: block; /* To allow setting margins */
+    margin: 10px auto; /* Center the image horizontally */
+    overflow: visible; /* Override the overflow property from the img selector */
+}
 /* Multi-use */
 
 	.link-list {

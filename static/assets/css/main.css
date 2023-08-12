@@ -1,13 +1,9 @@
 @import url("https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,300,200");
 
-/*
-	Halcyonic by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
-*/
+
 #id_first_name,#id_last_name,#id_date_of_birth,#id_phone_number,#id_new_password,#id_confirm_password {
   width: 100%;
-  box-sizing: border-box; /* This ensures padding and border are included in the width */
+  box-sizing: border-box;
 }
 html, body, div, span, applet, object,
 iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
@@ -1467,25 +1463,31 @@ input, select, textarea {
     display: flex;
     justify-content: center;
     align-items: center;
-    /*background: #fff url("images/bg04.png");*/
     padding: 10px;
     box-shadow: 3px 3px 3px 1px rgba(0, 0, 0, 0.15);
     margin: 0px 10px;
     outline: 0;
 }
-
+img.movie-poster {
+        width: 150px;
+        height: 225px;
+        border: 3px solid #000;
+        object-fit: cover;
+        display: block;
+        margin: 10px auto;
+    }
 .bordered-feature-image:hover {
-    background: #fff url("images/bg04.png"); /* Background on hover */
+    background: #fff url("images/bg04.png");
 }
 #logo-image {
-    max-width: 100%; /* or set a fixed width if you prefer */
-    height: auto; /* allows the image to scale proportionally */
-    object-fit: contain; /* ensures that the entire image is visible within the container */
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
 }
 .bordered-feature-image img {
 
-    height: 200px; /* adjust as needed */
-    object-fit: cover; /* ensures that the image covers the entire space without distortion */
+    height: 200px;
+    object-fit: cover;
 }
 
 	.button-large {
@@ -1525,6 +1527,7 @@ input, select, textarea {
 			background-color: #ce1a00;
 			box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.75), inset 0px 2px 0px 0px rgba(255, 192, 192, 0.5), inset 0px 0px 0px 2px rgba(255, 96, 96, 0.85), 3px 3px 3px 1px rgba(0, 0, 0, 0.15);
 		}
+/* cinema */
 
 /* Header */
 

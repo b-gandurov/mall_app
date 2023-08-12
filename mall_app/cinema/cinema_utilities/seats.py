@@ -8,11 +8,9 @@ from mall_app.cinema.models import CinemaHall, HallSeat
 
 
 def create_hall_seats(hall):
-
     HallSeat.objects.filter(hall=hall).delete()
 
     number_of_rows = hall.capacity // 12
-
 
     for row in range(1, number_of_rows + 1):
         for column in range(1, 12):
