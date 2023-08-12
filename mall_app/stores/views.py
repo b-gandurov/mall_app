@@ -12,7 +12,7 @@ from .models import Store, Item, Reservation
 
 class StoreListView(views.ListView):
     model = Store
-    template_name = 'store_list.html'
+    template_name = 'store_templates/store_list.html'
     context_object_name = 'stores'
 
     def get_queryset(self):
@@ -35,7 +35,7 @@ class StoreListView(views.ListView):
 
 class StoreDetailView(views.DetailView):
     model = Store
-    template_name = 'store_detail.html'
+    template_name = 'store_templates/store_detail.html'
     context_object_name = 'store'
 
     def get_context_data(self, **kwargs):
@@ -56,4 +56,4 @@ def reserve_item(request, item_id):
 
 class ItemDetailView(views.DetailView):
     model = Item
-    template_name = 'item_detail.html'
+    template_name = 'store_templates/item_detail.html'

@@ -9,16 +9,19 @@ from mall_app.users.models import UserProfile
 
 class CinemaScheduleView(ListView):
     model = Movie
-    template_name = 'schedule.html'
+    template_name = 'cinema_templates/schedule.html'
     context_object_name = 'movies'
 
     def get_queryset(self):
         queryset = super().get_queryset()
         queryset = queryset.prefetch_related(
             Prefetch('schedule_set',
-                     queryset=Schedule.objects.order_by('show_time').prefetch_related('ticket_set__seat'))
+                     queryset=Schedule.objects.order_by('show_time').prefetch_related(
+                         Prefetch('hall__hallseat_set', queryset=HallSeat.objects.order_by('row', 'column'))
+                     ))
         )
         return queryset
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

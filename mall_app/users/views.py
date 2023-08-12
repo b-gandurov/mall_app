@@ -43,7 +43,7 @@ def index(request):
 
 
 class RegisterUserView(views.CreateView):
-    template_name = 'register.html'
+    template_name = 'user_templates/register.html'
     form_class = RegisterUserForm
     success_url = reverse_lazy('index')
 
@@ -59,7 +59,7 @@ class RegisterUserView(views.CreateView):
 
 
 class LoginUserView(FormView):
-    template_name = 'login.html'
+    template_name = 'user_templates/login.html'
     form_class = LoginForm
     success_url = reverse_lazy('index')
 
@@ -78,7 +78,7 @@ class LoginUserView(FormView):
 class UserProfileView(LoginRequiredMixin, views.UpdateView):
     model = UserProfile
     form_class = UserProfileForm
-    template_name = 'user_profile.html'
+    template_name = 'user_templates/user_profile.html'
     success_url = reverse_lazy('profile')
 
     def form_valid(self, form):
@@ -140,7 +140,7 @@ class LogoutUserView(auth_views.LogoutView):
 class UserProfileDeleteView(LoginRequiredMixin, DeleteView):
     model = UserModel
     success_url = reverse_lazy('index')
-    template_name = 'profile_confirm_delete.html'
+    template_name = 'user_templates/profile_confirm_delete.html'
 
     def get_object(self):
         return self.request.user

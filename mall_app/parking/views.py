@@ -13,7 +13,7 @@ from django.views.generic.edit import FormView, DeleteView
 
 
 class ParkingView(generic.TemplateView):
-    template_name = 'parking.html'
+    template_name = 'parking_templates/parking.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -51,7 +51,7 @@ class ParkingView(generic.TemplateView):
 
 
 class RegisterCarView(FormView):
-    template_name = 'register_car.html'
+    template_name = 'parking_templates/register_car.html'
     form_class = CustomerCarForm
 
     def get(self, request, *args, **kwargs):
@@ -82,7 +82,7 @@ class RegisterCarView(FormView):
 
 
 class CarEntryView(FormView):
-    template_name = 'car_entry.html'
+    template_name = 'parking_templates/car_entry.html'
     form_class = CarEntryForm
     success_url = '/parking/enter'
 
@@ -117,7 +117,7 @@ class CarEntryView(FormView):
 
 class CarExitView(View):
     def get(self, request):
-        return render(request, 'car_exit.html')
+        return render(request, 'parking_templates/car_exit.html')
 
     def post(self, request):
         license_plate = request.POST.get('license_plate')
@@ -135,10 +135,10 @@ class CarExitView(View):
         context = {
             'error_message': f"No car with license plate {license_plate} is currently parked."
         }
-        return render(request, 'car_exit.html', context)
+        return render(request, 'parking_templates/car_exit.html', context)
 
 
 class DeleteCarView(DeleteView):
     model = CustomerCar
-    template_name = 'confirm_delete_car.html'
+    template_name = 'parking_templates/confirm_delete_car.html'
     success_url = '/parking'
