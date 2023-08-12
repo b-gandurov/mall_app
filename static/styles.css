@@ -104,6 +104,7 @@ footer {
 
 .btn-success {
   background-color: #138636;
+  margin-top: 30px;
 }
 
 .btn-info {
@@ -114,10 +115,18 @@ footer {
   background-color: #c91432;
 }
 
+.container-danger {
+  display: flex;
+  justify-content: center;
+}
+
 .bold {
   font-weight: bold;
 }
-
+#profile-section {
+	padding: 50px;
+  /*margin: 50px;*/
+}
 .profile-groups {
   display: flex;
   justify-content: space-around;

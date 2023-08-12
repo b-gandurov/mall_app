@@ -1,25 +1,39 @@
 {% extends 'base.html' %}
 {% block content %}
+    {% load static %}
+    <!-- Navigation buttons -->
     <br>
+    <div class="container">
 
+        <!-- Logout Button -->
+        <form method="post" id="logout-form" action="{% url 'logout_user' %}">
+            <button id="profile-btn" class="btn btn-primary" type="button">Profile</button>
+            <button id="reservations-btn" class="btn btn-primary" type="button">Reservations</button>
+            <button id="tickets-btn" class="btn btn-primary" type="button">Movie Tickets</button>
+            {% csrf_token %}
+            <button class="btn btn-danger" id="logout-btn" type="submit">Logout</button>
+        </form>
+
+        <hr>
+    </div>
+    <!-- Profile Section -->
     <div class="container profile-groups">
-
-        <div class="profile-group">
+        <!-- Update Profile Form -->
+        <div id="profile-section" class="profile-group">
             <form method="post" action="{% url 'profile' %}">
                 <h1>Update Profile</h1>
                 <hr>
-                {{ form.as_p }}
+                {{ form }}
                 {% csrf_token %}
                 <button class="btn btn-success" type="submit">Save changes</button>
             </form>
-            <form method="post" id="logout-form" action="{% url 'logout_user' %}">
-                {% csrf_token %}
-                <button class="btn btn-danger" id="logout-btn" type="submit">Logout</button>
-            </form>
+
         </div>
-        <div class="profile-group">
+        <!-- Reservations Section -->
+        <div id="reservations-section" class="profile-group">
             <h1>Reservations</h1>
             <hr>
+            <!-- Claimed Reservations -->
             <h3>Claimed Reservations</h3>
             {% for reservation in claimed_reservations %}
                 <li>
@@ -27,6 +41,7 @@
                     <span>CLAIMED</span>
                 </li>
             {% endfor %}
+            <!-- Pagination for Claimed Reservations -->
             <div class="pagination">
                 <span class="step-links">
                     {% if claimed_reservations.has_previous %}
@@ -44,7 +59,7 @@
                     {% endif %}
                 </span>
             </div>
-
+            <!-- Unclaimed Reservations -->
             <h3>Unclaimed Reservations</h3>
             {% for reservation in unclaimed_reservations %}
                 <li>
@@ -52,6 +67,7 @@
                     <span id="timer-{{ reservation.id }}"></span>
                 </li>
             {% endfor %}
+            <!-- Pagination for Unclaimed Reservations -->
             <div class="pagination">
                 <span class="step-links">
                     {% if unclaimed_reservations.has_previous %}
@@ -71,9 +87,10 @@
             </div>
         </div>
     </div>
-
+    <!-- Tickets Section -->
     <div class="container">
-        <div class="profile-groups">
+        <div id="tickets-section" class="profile-groups">
+            <!-- Messages and Booked Tickets -->
             <div class="profile-group">
                 {% if messages %}
                     <div id="messages-anchor">
@@ -84,123 +101,41 @@
                         </ul>
                     </div>
                 {% endif %}
-            {% if booked_tickets %}
-                <h3>Your Booked Seats</h3>
-                <hr>
-                <ul>
-
-                    {% for ticket in booked_tickets %}
-                        <li>
-                            Movie: {{ ticket.screening.movie.movie_name }} -
-                            Time: {{ ticket.screening.show_time }} -
-                            Hall: {{ ticket.screening.hall.hall_name }} -
-                            Seat: Row Number {{ ticket.seat.row }}, Seat Number {{ ticket.seat.column }}
-                            <form action="{% url 'unbook_seat' ticket.id %}" method="post">
-                                {% csrf_token %}
-                                <button type="submit">Unbook Seat</button>
-                            </form>
-                        </li>
-                    {% endfor %}
-                    <span class="timer" data-start-time="{{ ticket.screening.show_time|date:"U" }}"></span>
-                </ul>
-            {% else %}
-            <h3>You have no booked seats.</h3>
-            <a href="{% url 'cinema_schedule' %}">You can book some here</a>
-                <hr>
-            {% endif %}
+                {% if booked_tickets %}
+                    <h3>Your Booked Seats</h3>
+                    <hr>
+                    <ul>
+                        {% for ticket in booked_tickets %}
+                            <li>
+                                Movie: {{ ticket.screening.movie.movie_name }} -
+                                Time: {{ ticket.screening.show_time }} -
+                                Hall: {{ ticket.screening.hall.hall_name }} -
+                                Seat: Row Number {{ ticket.seat.row }}, Seat Number {{ ticket.seat.column }}
+                                <form action="{% url 'unbook_seat' ticket.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit">Unbook Seat</button>
+                                </form>
+                            </li>
+                        {% endfor %}
+                        <span class="timer" data-start-time="{{ ticket.screening.show_time|date:"U" }}"></span>
+                    </ul>
+                {% else %}
+                    <h3>You have no booked seats.</h3>
+                    <a href="{% url 'cinema_schedule' %}">You can book some here</a>
+                    <hr>
+                {% endif %}
             </div>
         </div>
     </div>
 
 
-
-    <div class="container">
+    <!-- Delete Profile Button -->
+    <div class="container-danger">
         <hr style="margin: 15px">
-        <a class="btn btn-danger" href="{% url 'delete_profile' %}">Delete Profile</a> <!-- Add this line -->
+        <a class="btn btn-danger" href="{% url 'delete_profile' %}">Delete Profile</a>
+        <hr style="margin: 15px">
     </div>
-
-
-    <script>
-        const logoutBtn = document.getElementById('logout-btn');
-        logoutBtn.onclick = (event) => {
-            event.preventDefault();
-            const form = document.getElementById('logout-form');
-            form.submit()
-        }
-
-        function startTimer(reservationId, reservationTime, reservationTimerMinutes) {
-            var countdownDate = new Date(reservationTime).getTime() + reservationTimerMinutes * 60 * 1000;
-            var x = setInterval(function () {
-                var now = new Date().getTime();
-                var distance = countdownDate - now;
-                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                document.getElementById("timer-" + reservationId).innerHTML = minutes + "m " + seconds + "s ";
-
-                if (distance < 0) {
-                    clearInterval(x);
-                    document.getElementById("timer-" + reservationId).innerHTML = "EXPIRED";
-                    // Make an AJAX call to the server to increase the item quantity
-                    fetch(`/increase_item_quantity/?reservation_id=${reservationId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.status === 'success') {
-                                console.log('Item quantity increased by 1.');
-                            } else if (data.status === 'already_increased') {
-                                console.log('Item quantity was already increased.');
-                            }
-                        });
-                }
-            }, 1000);
-        }
-
-        {% for reservation in unclaimed_reservations %}
-            startTimer("{{ reservation.id }}", "{{ reservation.reservation_time|date:'c' }}", {{ reservation.item.reservation_timer }});
-        {% endfor %}
-        function updateTimers() {
-            // Get all the elements with class timer
-            var timers = document.getElementsByClassName('timer');
-            if (!timers.length) {
-                return;
-            }
-
-            // Loop through each timer element
-            for (var i = 0; i < timers.length; i++) {
-                // Get the start time for this timer
-                var startTime = new Date(parseInt(timers[i].dataset.startTime) * 1000);
-
-                // Calculate the time remaining
-                var now = new Date();
-                var timeRemaining = startTime - now;
-
-                // Check if the time remaining is positive
-                if (timeRemaining > 0) {
-                    // Calculate hours, minutes, and seconds
-                    var hours = Math.floor(timeRemaining / (1000 * 60 * 60));
-                    var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
-
-                    // Update the display
-                    timers[i].innerText = hours + "h " + minutes + "m " + seconds + "s remaining";
-                } else {
-                    // If the time remaining is not positive, the movie has started
-                    timers[i].innerText = "Movie has started";
-                }
-            }
-        }
-
-        // Update the timers every second
-        setInterval(updateTimers, 1000);
-
-
-            window.addEventListener('load', function() {
-            const messagesDiv = document.getElementById('messages-anchor');
-            if (messagesDiv) {
-            messagesDiv.scrollIntoView({behavior: 'smooth'});
-        }
-        });
-
-
-    </script>
+    <!-- Including JavaScript for Authentication -->
+    <script src="{% static 'auth/auth.js' %}"></script>
 
 {% endblock %}

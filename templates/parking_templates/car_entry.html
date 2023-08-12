@@ -1,25 +1,46 @@
-<!DOCTYPE html>
-<html lang="">
-<head>
-    <title>Enter Parking</title>
-</head>
-<body>
-<a href={% url 'index' %}>home</a>
-{% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
+{% extends 'base.html' %}
+{% block content %}
 
-    <h1>Enter Parking</h1>
-<p>Free spots: {{ free_spots }}</p>
+    <div class="section messages-section">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
-    </form>
-</body>
-</html>
+    </div>
+    {#    <h2>Free spots: {{ free_spots }}</h2>#}
+    <div class="container-car-entrance-exit">
+        <h2>Free spots: {{ free_spots }}</h2>
+        <div class="section form-section">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="messages-section" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <style>
+        .container-car-entrance-exit {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .section {
+            /* Add space between sections if needed */
+            margin-right: 20px;
+        }
+
+        .messages-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+    </style>
+{% endblock %}

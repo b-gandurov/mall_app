@@ -103,9 +103,9 @@ class CarEntryView(FormView):
             Parking.objects.create(license_plate=license_plate, customer_car=car)
 
         except CustomerCar.DoesNotExist:
-            car = None
+            # car = None
             code = random.randint(100000000000, 999999999999)
-            messages.success(self.request, f"Your car is not registered. Here is your 12-digit code: {code}")
+            messages.success(self.request, f"Your car is not registered. Here is your 12-digit code: {code}.\n You can register your car from your profile")
             Parking.objects.create(license_plate=license_plate, non_registered_code=code)
         return super().form_valid(form)
 
