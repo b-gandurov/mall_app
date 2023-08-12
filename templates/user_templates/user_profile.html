@@ -37,7 +37,7 @@
             <h3>Claimed Reservations</h3>
             {% for reservation in claimed_reservations %}
                 <li>
-                    You reserved {{ reservation.item.name }} on {{ reservation.reservation_time }}
+                    Your reservation for {{ reservation.item.name }} on {{ reservation.reservation_time }} is
                     <span>CLAIMED</span>
                 </li>
             {% endfor %}
@@ -61,12 +61,17 @@
             </div>
             <!-- Unclaimed Reservations -->
             <h3>Unclaimed Reservations</h3>
-            {% for reservation in unclaimed_reservations %}
-                <li>
-                    You reserved {{ reservation.item.name }} on {{ reservation.reservation_time }}
-                    <span id="timer-{{ reservation.id }}"></span>
-                </li>
-            {% endfor %}
+{% for reservation in unclaimed_reservations %}
+    {% if reservation.is_expired %}
+    <li>
+        Your reservation for {{ reservation.item.name }} from {{ reservation.item.store }} has expired
+    </li>
+    {% else %}
+    <li>
+        You have <span id="timer-{{ reservation.id }}"></span> to claim your reservation for {{ reservation.item.name }} from {{ reservation.item.store }}
+    </li>
+    {% endif %}
+{% endfor %}
             <!-- Pagination for Unclaimed Reservations -->
             <div class="pagination">
                 <span class="step-links">
@@ -111,10 +116,11 @@
                                 Time: {{ ticket.screening.show_time }} -
                                 Hall: {{ ticket.screening.hall.hall_name }} -
                                 Seat: Row Number {{ ticket.seat.row }}, Seat Number {{ ticket.seat.column }}
-                                <form action="{% url 'unbook_seat' ticket.id %}" method="post">
+                                <form action="{% url 'unbook_seat' ticket.id %}" method="post" class="unbook-form">
                                     {% csrf_token %}
                                     <button type="submit">Unbook Seat</button>
                                 </form>
+
                             </li>
                         {% endfor %}
                         <span class="timer" data-start-time="{{ ticket.screening.show_time|date:"U" }}"></span>
@@ -137,5 +143,10 @@
     </div>
     <!-- Including JavaScript for Authentication -->
     <script src="{% static 'auth/auth.js' %}"></script>
+    <script>
+    {% for reservation in unclaimed_reservations %}
+        startTimer("{{ reservation.id }}", "{{ reservation.reservation_time|date:'c' }}", {{ reservation.item.reservation_timer }});
+    {% endfor %}
+</script>
 
 {% endblock %}

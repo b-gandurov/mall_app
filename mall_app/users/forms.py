@@ -3,6 +3,8 @@ from django.contrib.auth import get_user_model, authenticate
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import PasswordResetForm, UserChangeForm
+from django.core.validators import RegexValidator
+
 from mall_app.users.models import UserProfile
 from django.contrib.auth import forms as auth_forms
 
@@ -12,6 +14,12 @@ UserModel = get_user_model()
 class UserProfileForm(forms.ModelForm):
     new_password = forms.CharField(widget=forms.PasswordInput(), required=False, label="New Password")
     confirm_password = forms.CharField(widget=forms.PasswordInput(), required=False, label="Confirm New Password")
+    date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    phone_number_validator = RegexValidator(
+        regex=r'^\d{1,15}$',
+        message="Phone number must be entered in the format: '0888123456'. Up to 15 digits allowed."
+    )
+    phone_number = forms.CharField(validators=[phone_number_validator])
 
     class Meta:
         model = UserProfile

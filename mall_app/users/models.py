@@ -9,7 +9,7 @@ class UserProfile(models.Model):
     first_name = models.CharField(max_length=100, blank=True)
     last_name = models.CharField(max_length=100, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
-    phone_number = models.CharField(max_length=15, blank=True)
+    phone_number = models.CharField(max_length=15, blank=True, null=True)
 
     def __str__(self):
         return self.user.email
@@ -48,7 +48,7 @@ class AppUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
     USERNAME_FIELD = 'email'
 
     objects = AppUserManager()
-
+    is_super = models.BooleanField(default=False)
     email = models.EmailField(
         null=False,
         blank=False,

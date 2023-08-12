@@ -119,6 +119,13 @@ footer {
   display: flex;
   justify-content: center;
 }
+.errorlist nonfield{
+  margin: 0;!important;
+}
+.errorlist>li {
+        color: red;
+        font-weight: bold;
+    }
 
 .bold {
   font-weight: bold;

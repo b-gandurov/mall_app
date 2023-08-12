@@ -19,7 +19,7 @@ class AppUserAdmin(admin.ModelAdmin):
     form = CustomUserChangeForm
     fieldsets = (
         (None, {'fields': ('email', 'new_password', 'confirm_password')}),
-        ('Permissions', {'fields': ('is_staff','groups')}),
+        ('Permissions', {'fields': ('is_super','is_staff','groups',)}),
         # Add other fieldsets as needed
     )
     list_display = ('email', 'is_staff', 'is_active')  # Modify as needed

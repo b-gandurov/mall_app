@@ -1,7 +1,10 @@
 # mall_app/stores/models.py
+from datetime import timedelta
 
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
+
 
 class Category(models.Model):
     name = models.CharField(max_length=200)
@@ -49,6 +52,18 @@ class Reservation(models.Model):
     reservation_time = models.DateTimeField(auto_now_add=True)
     is_claimed = models.BooleanField(default=False)
     item_quantity_increased = models.BooleanField(default=False)
+
+    @property
+    def is_expired(self):
+        expiration_time = self.reservation_time + timedelta(minutes=self.item.reservation_timer)
+        return timezone.now() > expiration_time
+
+    def increase_item_quantity_if_expired(self):
+        if self.is_expired and not self.is_claimed and not self.item_quantity_increased:
+            self.item.quantity += 1
+            self.item.save()
+            self.item_quantity_increased = True
+            self.save()
 
     def __str__(self):
         return f'{self.user.email} reserved {self.item.name}'
