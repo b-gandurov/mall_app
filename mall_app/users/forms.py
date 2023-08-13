@@ -76,6 +76,7 @@ class CustomUserChangeForm(forms.ModelForm):
 
 
 class CustomPasswordResetForm(PasswordResetForm):
+
     def get_users(self, email):
         email_field_name = get_user_model().EMAIL_FIELD
         for user in get_user_model()._default_manager.filter(**{

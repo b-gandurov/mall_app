@@ -12,5 +12,3 @@ urlpatterns = [
     path('stores/', include('mall_app.stores.urls'))
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-# if settings.DEBUG is False:
-#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
