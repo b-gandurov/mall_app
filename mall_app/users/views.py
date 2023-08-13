@@ -2,8 +2,9 @@ from datetime import timedelta
 from django.contrib import messages
 from django.contrib.auth import views as auth_views, login, get_user_model, update_session_auth_hash, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import PasswordResetConfirmView
 from django.core.paginator import Paginator
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -160,3 +161,11 @@ def increase_item_quantity(request):
         return JsonResponse({'status': 'success'})
     else:
         return JsonResponse({'status': 'already_increased'})
+
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        user = form.user
+        login(self.request, user)
+        return HttpResponseRedirect(reverse_lazy('profile'))
