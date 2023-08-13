@@ -165,7 +165,6 @@ def increase_item_quantity(request):
 
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):
     def form_valid(self, form):
-        response = super().form_valid(form)
         user = form.user
         login(self.request, user)
         return HttpResponseRedirect(reverse_lazy('profile'))
