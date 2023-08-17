@@ -13,6 +13,7 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+from decouple import Config
 from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -22,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-5=!her10r7ke$%%+w(ptm#ma(_ebm_w8+m@y4p5264sc&^#6=-'
+SECRET_KEY = Config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -83,12 +84,12 @@ WSGI_APPLICATION = 'mall_app.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "mall_db",
-        "USER": "adminuser542",
-        "PASSWORD": "Hhjypb8rKIUZMSd",
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
+        "ENGINE": Config('DB_ENGINE'),
+        "NAME": Config('DB_NAME'),
+        "USER": Config('DB_USER'),
+        "PASSWORD": Config('DB_PASSWORD'),
+        "HOST": Config('DB_HOST'),
+        "PORT": Config('DB_PORT'),
     }
 }
 if DEBUG == True:
@@ -145,8 +146,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'themalldjangoproject@gmail.com'
-EMAIL_HOST_PASSWORD = 'yfqkmvieeslckrmz'
+EMAIL_HOST_USER = Config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = Config('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # SESSION_COOKIE_AGE = 300
