@@ -81,18 +81,23 @@ WSGI_APPLICATION = 'mall_app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-
 DATABASES = {
     "default": {
-        "ENGINE": Config('DB_ENGINE'),
-        "NAME": Config('DB_NAME'),
-        "USER": Config('DB_USER'),
-        "PASSWORD": Config('DB_PASSWORD'),
-        "HOST": Config('DB_HOST'),
-        "PORT": Config('DB_PORT'),
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": "db.sqlite3",
     }
 }
-if DEBUG == True:
+# DATABASES = {
+#     "default": {
+#         "ENGINE": Config('DB_ENGINE'),
+#         "NAME": Config('DB_NAME'),
+#         "USER": Config('DB_USER'),
+#         "PASSWORD": Config('DB_PASSWORD'),
+#         "HOST": Config('DB_HOST'),
+#         "PORT": Config('DB_PORT'),
+#     }
+# }
+if DEBUG:
     ALLOWED_HOSTS = []
 else:
     ALLOWED_HOSTS = ['127.0.0.1']
