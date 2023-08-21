@@ -15,8 +15,8 @@ The **Mall App** is a Django-based application designed to provide functionaliti
 
 ## 🛠 Prerequisites
 
-- **Python**: Version not provided (e.g., 3.8+)
-- **Django**: Version 4.2.2
+- **Python**: 3.8+
+- **Django**: 4.2+
 - **PostgreSQL**: (If you opt for this database)
 - **Other dependencies**: As mentioned in your `requirements.txt` (assuming you have one)
 
