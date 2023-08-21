@@ -44,13 +44,13 @@ The **Mall App** is a Django-based application designed to provide functionaliti
    venv\Scripts\activate
    ```
 
-3. **Install Dependencies**
+4. **Install Dependencies**
 
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Environment Variables Setup**
+5. **Environment Variables Setup**
    Create a `.env` file in the root directory and add the following:
 
    ```bash
@@ -65,13 +65,13 @@ The **Mall App** is a Django-based application designed to provide functionaliti
    EMAIL_HOST_PASSWORD=your-email-password
    ```
 
-5. **Run Migrations**
+6. **Run Migrations**
 
    ```bash
    python manage.py migrate
    ```
 
-6. **Start the Development Server**
+7. **Start the Development Server**
 
    ```bash
    python manage.py runserver
