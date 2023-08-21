@@ -13,9 +13,11 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
-from decouple import Config
-from django.urls import reverse_lazy
+from decouple import config
 
+from django.db.backends import postgresql
+from django.urls import reverse_lazy
+# config = Config()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,7 +25,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = Config('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -81,26 +84,26 @@ WSGI_APPLICATION = 'mall_app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "db.sqlite3",
-    }
-}
 # DATABASES = {
 #     "default": {
-#         "ENGINE": Config('DB_ENGINE'),
-#         "NAME": Config('DB_NAME'),
-#         "USER": Config('DB_USER'),
-#         "PASSWORD": Config('DB_PASSWORD'),
-#         "HOST": Config('DB_HOST'),
-#         "PORT": Config('DB_PORT'),
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": "db.sqlite3",
 #     }
 # }
+DATABASES = {
+    "default": {
+        "ENGINE": config('DB_ENGINE', default='django.db.backends.sqlite3'),
+        "NAME": config('DB_NAME', default=os.path.join(BASE_DIR, 'db.sqlite3')),
+        "USER": config('DB_USER', default=''),
+        "PASSWORD": config('DB_PASSWORD', default=''),
+        "HOST": config('DB_HOST', default=''),
+        "PORT": config('DB_PORT', default=''),
+    }
+}
 if DEBUG:
     ALLOWED_HOSTS = []
 else:
-    ALLOWED_HOSTS = ['127.0.0.1']
+    ALLOWED_HOSTS = ['localhost' '127.0.0.1' 'mall-app.com']
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -151,8 +154,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = Config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = Config('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # SESSION_COOKIE_AGE = 300

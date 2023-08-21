@@ -1,21 +1,53 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Exit Parking</title>
-</head>
-<body>
-    <h1>Exit Parking</h1>
+{% extends 'base.html' %}
+{% block content %}
 
-    {% if error_message %}
-    <p>{{ error_message }}</p>
-    {% endif %}
+    <div class="main-container">
+        <h1>Exit Parking</h1>
+        {% if error_message %}
+            <p>{{ error_message }}</p>
+        {% endif %}
+        <div class="form-container">
+            <form class="form-car-parking" method="post">
+                {% csrf_token %}
+                <label for="license_plate">License Plate:</label>
+                <input type="text" id="license_plate" name="license_plate">
+                <button type="submit">Exit Parking</button>
+            </form>
+        </div>
+    </div>
 
-    <form method="post">
-        {% csrf_token %}
-        <label for="license_plate">License Plate:</label>
-        <input type="text" id="license_plate" name="license_plate">
-        <button type="submit">Exit Parking</button>
-    </form>
+    <style>
 
-</body>
-</html>
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            margin: 50px 0;
+            font-size: 40px;
+        }
+
+        h2 {
+            margin-top: 150px;
+            font-size: 50px;
+        }
+
+        .form-car-parking {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-container {
+            max-width: 20%;
+        }
+    </style>
+
+{% endblock %}

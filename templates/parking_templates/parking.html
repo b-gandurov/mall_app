@@ -1,39 +1,94 @@
 {% extends 'base.html' %}
 {% block content %}
-    {% if not user.is_authenticated %}
-        {% if parking_message %}
-            <p>{{ parking_message }}</p>
-        {% elif error_message %}
-            <p>{{ error_message }}</p>
-        {% endif %}
-        <form action="{% url 'parking' %}" method="get">
-            <label for="license_plate">Enter License Plate:</label>
-            <input type="text" id="license_plate" name="license_plate" required>
-            <button type="submit">Check</button>
-        </form>
 
-    {% else %}
+        {% if not user.is_authenticated %}
 
-        {% if parked_car %}
-            <h2>Your car {{ parked_car.customer_car.license_plate }} is currently parked.</h2>
-            <p>Entrance Date: {{ parked_car.entrance_date }}</p>
-            <p>Amount Owed: {{ parked_car.amount_to_pay }}</p>
-        {% else %}
-            <h2>No car is currently parked.</h2>
-        {% endif %}
-        <a href="{% url 'register_car' %}">Register Car</a>
-        <h2>Your registered cars:</h2>
-        {% for car in registered_cars %}
-            <div>
-                License Plate: {{ car.license_plate }}
-                <a href="{% url 'delete_car' car.pk %}">
-                    <button>Delete</button>
-                </a>
+            <div class="main-container">
+            <h1>Check vehicle parking</h1>
+                <div class="form-container">
+                    <form class="form-car-parking" action="{% url 'parking' %}" method="get">
+                        <label for="license_plate">Enter License Plate:</label>
+                        <input type="text" id="license_plate" name="license_plate" required>
+                        <button type="submit">Check</button>
+                    </form>
+                </div>
+
+            {% if parking_message %}
+                <p>{{ parking_message }}</p>
+            {% elif error_message %}
+                <p>{{ error_message }}</p>
+            {% endif %}
             </div>
-        {% endfor %}
-    {% endif %}
+
+
+        {% else %}
+
+            {% if parked_car %}
+                <div class="parked-car">
+                    <p>Your car {{ parked_car.customer_car.license_plate }} is currently parked.</p>
+                    <p>Entrance Date: {{ parked_car.entrance_date }}</p>
+                    <p id="timer">Parked Time: Calculating...</p>
+                    <p>Amount Owed: {{ parked_car.amount_to_pay }}</p>
+                </div>
+                <hr>
+            {% else %}
+                <h2>No car is currently parked.</h2>
+            {% endif %}
+            <div class="parked-car">
+                <a href="{% url 'register_car' %}">Register Car</a>
+                <h3>Your registered cars:</h3>
+                {% for car in registered_cars %}
+                    <div>
+                        License Plate: {{ car.license_plate }}
+                        <a href="{% url 'delete_car' car.pk %}">
+                            <button>Delete</button>
+                        </a>
+                    </div>
+                    </div>
+                {% endfor %}
+        {% endif %}
+    <style>
+        .parked-car {
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            margin: 50px 0;
+            font-size: 40px;
+        }
+
+        h2 {
+            margin-top: 150px;
+            font-size: 50px;
+        }
+
+        .form-car-parking {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-container {
+            max-width: 20%;
+        }
+    </style>
     <script>
-        // Get the entrance date from Django's context
+
         var entranceDate = new Date("{{ parked_car.entrance_date|date:'c' }}");
 
         function updateTimer() {
@@ -44,14 +99,11 @@
             var minutes = Math.floor(difference / 1000 / 60) % 60;
             var seconds = Math.floor(difference / 1000) % 60;
 
-            // Format the time
             var timeString = `Parked Time: ${hours}h ${minutes}m ${seconds}s`;
 
-            // Update the timer div
             document.getElementById('timer').innerHTML = timeString;
         }
 
-        // Update the timer every second
         setInterval(updateTimer, 1000);
     </script>
 

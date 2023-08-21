@@ -95,7 +95,7 @@ class CarEntryView(FormView):
 
     def form_valid(self, form):
         license_plate = form.cleaned_data['license_plate']
-        if Parking.objects.filter(customer_car__license_plate=license_plate, exit_date__isnull=True).exists():
+        if Parking.objects.filter(license_plate=license_plate, exit_date__isnull=True).exists():
             form.add_error(None, 'This car is already parked.')
             return self.form_invalid(form)
 
@@ -127,22 +127,28 @@ def get(request):
 
 class CarExitView(View):
 
+    def get(self, request):
+        return render(request, 'parking_templates/car_exit.html')
+
     def post(self, request):
         license_plate = request.POST.get('license_plate')
         parking_instance = Parking.objects.filter(license_plate=license_plate, exit_date__isnull=True).first()
 
         if parking_instance:
             parking_rate = ParkingRate.objects.first()
-            total_hours = (timezone.now() - parking_instance.entry_date).total_seconds() / 3600
+            total_hours = (timezone.now() - parking_instance.entrance_date).total_seconds() / 3600
             payable_hours = max(total_hours - parking_rate.free_hours, 0)
             fee = payable_hours * parking_rate.hourly_rate
             parking_instance.fee = fee
             parking_instance.exit_date = timezone.now()
             parking_instance.save()
-
-        context = {
-            'error_message': f"No car with license plate {license_plate} is currently parked."
-        }
+            context = {
+                'error_message': f"Car with license-plate {license_plate} has exited the parkinglot.It has been parked for {total_hours:.2f} and the total parking cost was {fee}"
+            }
+        else:
+            context = {
+                'error_message': f"No car with license plate {license_plate} is currently parked."
+            }
         return render(request, 'parking_templates/car_exit.html', context)
 
 

@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
 
-    <div class="section messages-section">
+    <div class="main-container">
+        <h1>Enter Parking</h1>
         {% if messages %}
             <ul class="messages">
                 {% for message in messages %}
@@ -9,58 +10,103 @@
                 {% endfor %}
             </ul>
         {% endif %}
+        <div class="form-container">
+            <form class="form-car-parking" method="post">
 
-    </div>
-    <div class="container-car-entrance-exit">
-
-        <div class="section form-section">
-            <form method="post">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <button class="messages-section button-submit-parking" type="submit">Submit</button>
+                {% if form.non_field_errors %}
+                    <ul class="errorlist">
+                        {% for error in form.non_field_errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <label for="license_plate">License Plate:</label>
+            {% if form.errors %}
+                <p>{{ error }}</p>
+                {% endif %}
+{#                {% if form.license_plate.errors %}#}
+{#                    <ul class="errorlist">#}
+{#                        {% for error in form.license_plate.errors %}#}
+{#                            <li>{{ error }}</li>#}
+{#                        {% endfor %}#}
+{#                    </ul>#}
+{#                {% endif %}#}
+                <input type="text" id="license_plate" name="license_plate">
+                <button type="submit">Enter Parking</button>
             </form>
-            <h2>Free spots: {{ free_spots }}</h2>
+            <h2>Free parking spots: {{ free_spots }}</h2>
         </div>
     </div>
 
     <style>
-        .container-car-entrance-exit {
+
+        .main-container {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
+            flex-direction: column;
             text-align: center;
-        }
-
-        .section {
-            /* Add space between sections if needed */
-            margin-right: 20px;
-        }
-
-        .messages-section {
-            display: flex;
-            height: 100px;
             justify-content: center;
             align-items: center;
-            width: 100%;
-        }
-        .button-submit-parking {
-            {#height: 100px;#}
-            border: none; /* Remove border */
-            {#color: white; /* White text */#}
-            {#padding: 10px 20px; /* Some padding */#}
-            text-align: center; /* Center text */
-            text-decoration: none; /* Remove underline */
-            display: inline-block;
-            {#font-size: 16px; /* Increase font size */#}
-            {#margin: 4px 2px; /* Add some margin */#}
-            cursor: pointer; /* Add a mouse pointer on hover */
-            border-radius: 5px; /* Rounded corners */
         }
 
-        .submit-button:hover {
-            background-color: #45a049; /* Darken background on hover */
+        h1 {
+            margin: 50px 0;
+            font-size: 40px;
         }
 
+        h2 {
+            margin-top: 150px;
+            font-size: 50px;
+        }
+
+        .form-car-parking {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
     </style>
+
+    {#    <style>#}
+    {#        .container-car-entrance-exit {#}
+    {#            display: flex;#}
+    {#            justify-content: center;#}
+    {#            align-items: center;#}
+    {#            width: 100%;#}
+    {#            text-align: center;#}
+    {#        }#}
+    {##}
+    {#        .section {#}
+    {#            /* Add space between sections if needed */#}
+    {#            margin-right: 20px;#}
+    {#        }#}
+    {##}
+    {#        .messages-section {#}
+    {#            display: flex;#}
+    {#            height: 100px;#}
+    {#            justify-content: center;#}
+    {#            align-items: center;#}
+    {#            width: 100%;#}
+    {#        }#}
+    {#        .button-submit-parking {#}
+    {#height: 100px;#}
+    {#            border: none; /* Remove border */#}
+    {#color: white; /* White text */#}
+    {#padding: 10px 20px; /* Some padding */#}
+    {#            text-align: center; /* Center text */#}
+    {#            text-decoration: none; /* Remove underline */#}
+    {#            display: inline-block;#}
+    {#font-size: 16px; /* Increase font size */#}
+    {#margin: 4px 2px; /* Add some margin */#}
+    {#            cursor: pointer; /* Add a mouse pointer on hover */#}
+    {#            border-radius: 5px; /* Rounded corners */#}
+    {#        }#}
+    {##}
+    {#        .submit-button:hover {#}
+    {#            background-color: #45a049; /* Darken background on hover */#}
+    {#        }#}
+    {##}
+    {#    </style>#}
 {% endblock %}

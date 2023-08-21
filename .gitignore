@@ -6,3 +6,9 @@ tmp
 Scripts
 venv
 .env
+postgresql
+docker-compose.yaml
+docker-compose.production.yaml
+Dockerfile
+nginx
+certbot
