@@ -137,7 +137,7 @@ class CarExitView(View):
         if parking_instance:
             parking_rate = ParkingRate.objects.first()
             total_hours = (timezone.now() - parking_instance.entrance_date).total_seconds() / 3600
-            payable_hours = max(total_hours - parking_rate.free_hours, 0)
+            payable_hours = int(max(total_hours - parking_rate.free_hours, 0))
             fee = payable_hours * parking_rate.hourly_rate
             parking_instance.fee = fee
             parking_instance.exit_date = timezone.now()

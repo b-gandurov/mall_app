@@ -9,7 +9,9 @@ The **Mall App** is a Django-based application designed to provide functionaliti
   ![My Image](demos/demo_cinema.gif)
 
 - 🚗 **Parking**: Manage your vehicle with the parking module. It allows users to check parking availability, signed up users have the option to regster cars so that each time when they open the app they can see how long a given car has been parked and what is the total parking cost for each car.
+   ![My Image](demos/parking_demo3.gif)
 - 🏬 **Stores**: Explore various stores available in the mall. Stores can be searched based on category, name or both. The stores module provides detailed information on all the stores, along with working hours,location in the mall, website,phone and others. All of these details can be customized from the backend. The store owners have the option to veature items on their store page that are avaiable for reservation for specific ammout of time. Only registered users will have the option to reserve items.
+   ![My Image](demos/stores_demo.gif)
 - 🔐 **User Authentication System**: Provides registration, login, and password reset functionalities. Authenticated users have additonal functionalities enabled to them for each part of the app.
 - 🧑 **User Profiles**: Store and manage personal information including first name, last name, date of birth, and phone number. Additionaly users can manage their Cinema tickets bookings, store items reservations or add/remove cars to their parking profile along with checking addtional parking fees and parked time in more details.
 
