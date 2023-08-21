@@ -30,7 +30,6 @@ The **Mall App** is a Django-based application designed to provide functionaliti
    ```
 
 2. **Set up a Virtual Environment**
-   For Windows use:
 
    ```bash
    python -m venv venv
