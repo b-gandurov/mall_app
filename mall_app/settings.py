@@ -29,7 +29,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 # Application definition
 
@@ -101,9 +101,10 @@ DATABASES = {
     }
 }
 if DEBUG:
-    ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'mall-app.com']
 else:
-    ALLOWED_HOSTS = ['localhost' '127.0.0.1' 'mall-app.com']
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'mall-app.com']
+
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -141,6 +142,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -160,3 +163,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # SESSION_COOKIE_AGE = 300
 # SESSION_SAVE_EVERY_REQUEST = True
+
+# print(os.environ)  # This will print all environment variables. Be cautious as it might print sensitive info.
+# print(config('SECRET_KEY'))
+# print(config('DEBUG'))

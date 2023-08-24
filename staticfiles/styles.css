@@ -1,0 +1,151 @@
+/* styles.css */
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #BFCBD7;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #3E4171;
+  color: #FFFFFF;
+  padding: 20px;
+  text-align: center;
+}
+
+h1, h2, h3 {
+  margin: 0;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+nav ul li {
+  margin-right: 10px;
+}
+
+nav ul li a {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+nav ul li a:hover {
+  text-decoration: underline;
+}
+
+main {
+  padding: 20px;
+}
+
+.carousel {
+  display: flex;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.store {
+  width: 100%;
+  min-width: 100%;
+  background-color: #344246;
+  color: #FFFFFF;
+  padding: 10px;
+  transition: transform 0.3s;
+}
+img.movie-poster {
+    width: 150px;
+    height: 225px;
+    border: 3px solid #000;
+    object-fit: cover;
+    display: block;
+    margin: 10px auto;
+    overflow: visible;
+}
+.store img {
+  width: 100%;
+  height: auto;
+}
+
+.carousel-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.carousel-buttons button {
+  background-color: #213354;
+  color: #FFFFFF;
+  border: none;
+  padding: 5px 10px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+footer {
+  background-color: #A893AA;
+  color: #FFFFFF;
+  padding: 10px;
+  text-align: center;
+}
+
+.btn {
+  font-size: 0.9em;
+  color: #222222;
+  padding: 10px;
+  border: 1px solid #222222;
+  border-radius: 9px;
+  text-decoration: none;
+}
+
+.btn-success {
+  background-color: #138636;
+  margin-top: 30px;
+}
+
+.btn-info {
+  background-color: #33b5e5;
+}
+
+.btn-danger {
+  background-color: #c91432;
+}
+
+.container-danger {
+  display: flex;
+  justify-content: center;
+}
+.errorlist nonfield{
+  margin: 0;!important;
+}
+.errorlist>li {
+        color: red;
+        font-weight: bold;
+    }
+
+.bold {
+  font-weight: bold;
+}
+#profile-section {
+	padding: 50px;
+  /*margin: 50px;*/
+}
+.profile-groups {
+  display: flex;
+  justify-content: space-around;
+}
+.profile-groups .profile-group {
+  flex-grow: 1;
+  border: 3px solid #474f51;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 5px;
+}
+
+#logout-btn {
+  float: right;
+}

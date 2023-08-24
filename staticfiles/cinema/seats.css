@@ -1,0 +1,61 @@
+.screening-btn {
+    height: 30px;
+    border: 1px solid black;
+    border-radius: 6px;
+}
+
+.screening-btn:hover {
+    background-color: rgb(178, 255, 171);
+}
+
+.screening-btn.active {
+    background-color: rgb(103, 187, 95);
+}
+
+.seat-booking-form {
+    display: none;
+    flex-wrap: wrap;
+    /*justify-content: space-between;*/
+    max-width: 624px;
+}
+
+.seat-booking-form.active {
+    display: flex;
+}
+.movie-poster {
+    width: 150px;
+    height: 225px;
+    border: 3px solid #000;
+    object-fit: cover;
+    display: block;
+    margin: 10px auto;
+    overflow: visible;
+}
+.seat-booking-form label {
+    width: 50px;
+    height: 35px;
+    border: 1px solid #000;
+    margin: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: green;
+}
+
+.seat-booking-form label::before {
+    content: attr(data-seat);
+    font-size: 12px;
+}
+
+
+.seat-booking-form label input:checked + ::before {
+    color: white;
+    background-color: red;
+}
+
+/* Style for disabled (already booked) seats */
+.seat-booking-form label input:disabled + ::before {
+    color: white; /* Change text color if needed */
+    background-color: grey; /* Change background color */
+}

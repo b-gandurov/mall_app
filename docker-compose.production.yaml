@@ -1,5 +1,8 @@
 version: '3.8'
 
+volumes:
+  mall-db:
+
 services:
   web:
     image: mall_app_web
@@ -10,17 +13,18 @@ services:
     ports:
       - "8000:8000"
     env_file:
-      - /.env
+      - .env
+
   db:
     image: postgres
     restart: always
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
-      - ./postgresql:/var/lib/postgresql/data
+      - mall-db:/var/lib/postgresql/data
+
   nginx:
     image: nginx
     ports:

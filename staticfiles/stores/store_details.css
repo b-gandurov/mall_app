@@ -1,0 +1,48 @@
+.store-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.store-overview {
+    display: flex;
+    flex-direction: column;
+    background: none;
+}
+
+.store-overview span {
+    width: 100%;
+    background: #8d9ca3;
+    text-align: center;
+    font-size: 50px;
+    line-height: 60px;
+}
+
+.store-overview img {
+    width: 300px;
+    margin: 15px auto;
+}
+.store-title {
+    display: none;
+}
+.store-items {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 10px;
+}
+
+.store-item {
+    border: 1px solid gray;
+    border-radius: 7px;
+    background-color: #EEEEEE;
+}
+
+.store-item-description {
+    padding: 0px 10px 10px 10px;
+}
+
+.store-item img {
+    width: 250px;
+    margin: 0 auto;
+}
