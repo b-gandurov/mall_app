@@ -5,7 +5,7 @@ volumes:
 
 services:
   web:
-    image: mall_app_web
+    image: bozhil/mall_app_web
     build: .
     command: gunicorn --bind=0.0.0.0:8000 mall_app.wsgi:application
     volumes:

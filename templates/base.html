@@ -24,11 +24,11 @@
 
 								<!-- Nav -->
 									<nav id="nav-special">
-                                    <a href="{% url 'index' %}" id="logo"><img id="logo-image" src="{% get_media_prefix %}website/logo.jpg" alt="logo"></a>
+                                    <a href="{% url 'index' %}" id="logo"><img id="logo-image" src="{% static 'images/logo.jpg'%}" alt="logo"></a>
 										<a href="{% url 'index' %}">Home</a>
 										<a href="{% url 'cinema_schedule' %}">Cinema</a>
 										<a href="{% url 'store_list' %}">Stores</a>
-                                    <a href="{% url 'parking' %}">Parking</a>
+                                        <a href="{% url 'parking' %}">Parking</a>
                                         {% if user.is_authenticated %}
 
                                             <a href="{% url 'profile' %}">{{ user.get_username }}</a>

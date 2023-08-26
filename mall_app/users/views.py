@@ -12,11 +12,14 @@ from django.utils.decorators import method_decorator
 from django.views import generic as views
 from django.shortcuts import redirect
 from django.views.generic import DeleteView, FormView
+
+from mall_app import settings
 from mall_app.cinema.models import Ticket
 from mall_app.stores.models import Reservation, Store
 from mall_app.users.forms import UserProfileForm, RegisterUserForm, LoginForm
 from mall_app.users.models import UserProfile
-
+def debug_status(request):
+    return {'DEBUG': settings.DEBUG}
 
 def sort_reservations_by_remaining_time(reservations):
     now = timezone.now()
