@@ -458,3 +458,5 @@
 135.125.246.110 - - [28/Aug/2023:08:10:57 +0000] "GET /.env HTTP/1.1" 400 154 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36"
 198.235.24.174 - - [28/Aug/2023:08:18:34 +0000] "GET / HTTP/1.0" 200 4076 "-" "Expanse, a Palo Alto Networks company, searches across the global IPv4 space multiple times per day to identify customers&#39; presences on the Internet. If you would like to be excluded from our scans, please send IP addresses/domains to: scaninfo@paloaltonetworks.com"
 205.210.31.138 - - [28/Aug/2023:08:22:50 +0000] "\x16\x03\x01\x00\xCA\x01\x00\x00\xC6\x03\x03\x90\x8Cv\xA9\xA4\x7F\x08&\xD8\xE4\x00(\xCF\x16b+\xA4\x0E\xD6\x92\xB2\x97" 400 157 "-" "-"
+135.125.246.110 - - [28/Aug/2023:08:40:22 +0000] "POST / HTTP/1.1" 400 154 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36"
+135.125.246.110 - - [28/Aug/2023:08:40:22 +0000] "GET /.env HTTP/1.1" 400 154 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36"
