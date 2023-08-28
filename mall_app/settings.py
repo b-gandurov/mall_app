@@ -74,8 +74,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-
-                'mall_app.users.views.debug_status'
             ],
         },
     },
@@ -103,9 +101,9 @@ DATABASES = {
     }
 }
 if DEBUG:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'mall-app.com', 'mall-app.b-gandurov.com']
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'mall-app.com','ec2-18-198-235-238.eu-central-1.compute.amazonaws.com','mall.b-gandurov.com','www.mall.b-gandurov.com']
 else:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'mall-app.com', 'mall-app.b-gandurov.com']
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'mall-app.com','ec2-18-198-235-238.eu-central-1.compute.amazonaws.com','mall.b-gandurov.com','www.mall.b-gandurov.com']
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
